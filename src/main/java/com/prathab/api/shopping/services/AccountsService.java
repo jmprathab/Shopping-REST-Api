@@ -11,6 +11,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -46,15 +47,21 @@ public class AccountsService {
       return Response.status(Status.UNAUTHORIZED).build();
     }
 
+    users.setName(fetchedDocument.getString(DB_COLLECTION_USERS_NAME));
+
     HashMap<String, String> claims = new HashMap<>();
     claims.put(JWT_CLAIM_NAME, users.getName());
     claims.put(JWT_CLAIM_MOBILE, users.getMobile());
     claims.put(JWT_CLAIM_USERS_TYPE, Users.UsersTypes.USER);
 
+    System.out.println(users.getName() + " " + users.getMobile() + " " + users.getPassword());
+
     String jwt = createAndGetJWT(claims);
 
     if (jwt != null) {
-      return Response.ok().header(HttpConstants.HTTP_HEADER_TOKEN, jwt).build();
+      return Response.ok(users, MediaType.APPLICATION_JSON_TYPE)
+          .header(HttpConstants.HTTP_HEADER_TOKEN, jwt)
+          .build();
     }
     return Response.status(Status.BAD_REQUEST).build();
   }

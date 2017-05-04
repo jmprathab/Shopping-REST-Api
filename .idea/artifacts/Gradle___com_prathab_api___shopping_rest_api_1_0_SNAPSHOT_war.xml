@@ -12,59 +12,59 @@
           <element id="dir-copy" path="$PROJECT_DIR$/build/resources/main" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Gradle: org.glassfish.jersey.containers:jersey-container-servlet-core:2.25.1" />
-          <element id="library" level="project" name="Gradle: org.glassfish.jersey.media:jersey-media-moxy:2.25.1" />
-          <element id="library" level="project" name="Gradle: org.mongodb:mongo-java-driver:3.4.2" />
-          <element id="library" level="project" name="Gradle: com.auth0:java-jwt:3.1.0" />
-          <element id="library" level="project" name="Gradle: org.mindrot:jbcrypt:0.4" />
-          <element id="library" level="project" name="Gradle: com.googlecode.libphonenumber:libphonenumber:8.4.0" />
-          <element id="library" level="project" name="Gradle: commons-validator:commons-validator:1.6" />
-          <element id="library" level="project" name="Gradle: io.swagger:swagger-jersey2-jaxrs:1.5.13" />
-          <element id="library" level="project" name="Gradle: javax.mail:mail:1.5.0-b01" />
-          <element id="library" level="project" name="Gradle: org.glassfish.hk2.external:javax.inject:2.5.0-b32" />
-          <element id="library" level="project" name="Gradle: org.glassfish.jersey.core:jersey-common:2.25.1" />
-          <element id="library" level="project" name="Gradle: org.glassfish.jersey.core:jersey-server:2.25.1" />
-          <element id="library" level="project" name="Gradle: javax.ws.rs:javax.ws.rs-api:2.0.1" />
-          <element id="library" level="project" name="Gradle: org.glassfish.jersey.ext:jersey-entity-filtering:2.25.1" />
-          <element id="library" level="project" name="Gradle: org.eclipse.persistence:org.eclipse.persistence.moxy:2.6.0" />
-          <element id="library" level="project" name="Gradle: commons-codec:commons-codec:1.10" />
-          <element id="library" level="project" name="Gradle: org.bouncycastle:bcprov-jdk15on:1.55" />
-          <element id="library" level="project" name="Gradle: commons-beanutils:commons-beanutils:1.9.2" />
-          <element id="library" level="project" name="Gradle: commons-digester:commons-digester:1.8.1" />
-          <element id="library" level="project" name="Gradle: commons-logging:commons-logging:1.2" />
-          <element id="library" level="project" name="Gradle: commons-collections:commons-collections:3.2.2" />
-          <element id="library" level="project" name="Gradle: io.swagger:swagger-jaxrs:1.5.13" />
-          <element id="library" level="project" name="Gradle: org.glassfish.jersey.media:jersey-media-multipart:2.1" />
-          <element id="library" level="project" name="Gradle: javax.activation:activation:1.1" />
-          <element id="library" level="project" name="Gradle: javax.annotation:javax.annotation-api:1.2" />
-          <element id="library" level="project" name="Gradle: org.glassfish.jersey.bundles.repackaged:jersey-guava:2.25.1" />
-          <element id="library" level="project" name="Gradle: org.glassfish.hk2:hk2-api:2.5.0-b32" />
-          <element id="library" level="project" name="Gradle: org.glassfish.hk2:hk2-locator:2.5.0-b32" />
-          <element id="library" level="project" name="Gradle: org.glassfish.hk2:osgi-resource-locator:1.0.1" />
-          <element id="library" level="project" name="Gradle: org.eclipse.persistence:org.eclipse.persistence.core:2.6.0" />
-          <element id="library" level="project" name="Gradle: javax.validation:validation-api:1.1.0.Final" />
-          <element id="library" level="project" name="Gradle: org.glassfish:javax.json:1.0.4" />
-          <element id="library" level="project" name="Gradle: io.swagger:swagger-core:1.5.13" />
-          <element id="library" level="project" name="Gradle: org.reflections:reflections:0.9.10" />
-          <element id="library" level="project" name="Gradle: com.google.guava:guava:20.0" />
-          <element id="library" level="project" name="Gradle: org.jvnet.mimepull:mimepull:1.8" />
-          <element id="library" level="project" name="Gradle: org.glassfish.hk2:hk2-utils:2.5.0-b32" />
-          <element id="library" level="project" name="Gradle: org.glassfish.hk2.external:aopalliance-repackaged:2.5.0-b32" />
-          <element id="library" level="project" name="Gradle: org.javassist:javassist:3.20.0-GA" />
-          <element id="library" level="project" name="Gradle: org.eclipse.persistence:org.eclipse.persistence.asm:2.6.0" />
-          <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.2.1" />
-          <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.22" />
-          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.5" />
-          <element id="library" level="project" name="Gradle: io.swagger:swagger-models:1.5.13" />
-          <element id="library" level="project" name="Gradle: com.google.code.findbugs:annotations:2.0.1" />
-          <element id="library" level="project" name="Gradle: javax.inject:javax.inject:1" />
-          <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.17" />
-          <element id="library" level="project" name="Gradle: io.swagger:swagger-annotations:1.5.13" />
-          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.8.5" />
-          <element id="library" level="project" name="Gradle: org.glassfish.jersey.core:jersey-client:2.25.1" />
-          <element id="library" level="project" name="Gradle: org.glassfish.jersey.media:jersey-media-jaxb:2.25.1" />
-          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.8.5" />
-          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.8.5" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.containers/jersey-container-servlet-core/2.25.1/400e30bb035a0cdf3c554530224141ce659a0d1e/jersey-container-servlet-core-2.25.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.media/jersey-media-moxy/2.25.1/11c002dfc982a66c49a8d0a44afcd469453c17ed/jersey-media-moxy-2.25.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.4.2/5d0448606f5f7f3974dbae69c4ccfffe214ae60d/mongo-java-driver-3.4.2.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.auth0/java-jwt/3.1.0/dd8c53848114b43828d7e66d1d137164a632ef94/java-jwt-3.1.0.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mindrot/jbcrypt/0.4/af7e61017f73abb18ac4e036954f9f28c6366c07/jbcrypt-0.4.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.libphonenumber/libphonenumber/8.4.0/344f5046848bc39ea9968149f22e8f2dcd444d1e/libphonenumber-8.4.0.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.6/e989d1e87cdd60575df0765ed5bac65c905d7908/commons-validator-1.6.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.swagger/swagger-jersey2-jaxrs/1.5.13/47eb10df5b09c0fa17f2805b5300b6b409cb0fd9/swagger-jersey2-jaxrs-1.5.13.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.mail/mail/1.5.0-b01/c128515e42609622ce3f7dc0b431026d80bdb688/mail-1.5.0-b01.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2.external/javax.inject/2.5.0-b32/b2fa50c8186a38728c35fe6a9da57ce4cc806923/javax.inject-2.5.0-b32.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.core/jersey-common/2.25.1/2438ce68d4907046095ab54aa83a6092951b4bbb/jersey-common-2.25.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.core/jersey-server/2.25.1/276e2ee0fd1cdabf99357fce560c5baab675b1a2/jersey-server-2.25.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.ws.rs/javax.ws.rs-api/2.0.1/104e9c2b5583cfcfeac0402316221648d6d8ea6b/javax.ws.rs-api-2.0.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.ext/jersey-entity-filtering/2.25.1/4a5805060f796ec2c9bb1ba0ce91c1db6d889524/jersey-entity-filtering-2.25.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.persistence/org.eclipse.persistence.moxy/2.6.0/64cd338ef866a29892caedd661a6b00ec4d02730/org.eclipse.persistence.moxy-2.6.0.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.10/4b95f4897fa13f2cd904aee711aeafc0c5295cd8/commons-codec-1.10.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.55/935f2e57a00ec2c489cbd2ad830d4a399708f979/bcprov-jdk15on-1.55.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-beanutils/commons-beanutils/1.9.2/7a87d845ad3a155297e8f67d9008f4c1e5656b71/commons-beanutils-1.9.2.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-digester/commons-digester/1.8.1/3dec9b9c7ea9342d4dbe8c38560080d85b44a015/commons-digester-1.8.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2.2/8ad72fe39fa8c91eaaf12aadb21e0c3661fe26d5/commons-collections-3.2.2.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.swagger/swagger-jaxrs/1.5.13/48be66522e95b20c444bb4529582d0faae6aec3f/swagger-jaxrs-1.5.13.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.media/jersey-media-multipart/2.1/b644da29cd7d03ae716920e6478e5783bfc3f1f9/jersey-media-multipart-2.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.activation/activation/1.1/e6cb541461c2834bdea3eb920f1884d1eb508b50/activation-1.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.annotation/javax.annotation-api/1.2/479c1e06db31c432330183f5cae684163f186146/javax.annotation-api-1.2.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.bundles.repackaged/jersey-guava/2.25.1/a2bb4f8208e134cf2cf71dfb8824e42942f7bd06/jersey-guava-2.25.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/hk2-api/2.5.0-b32/6a576c9653832ce610b80a2f389374ef19d96171/hk2-api-2.5.0-b32.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/hk2-locator/2.5.0-b32/195474f8ad0a8d130e9ea949a771bcf1215fc33b/hk2-locator-2.5.0-b32.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/osgi-resource-locator/1.0.1/4ed2b2d4738aed5786cfa64cba5a332779c4c708/osgi-resource-locator-1.0.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.persistence/org.eclipse.persistence.core/2.6.0/af94a15960b85492f89aabaa23deb6465ffc4a38/org.eclipse.persistence.core-2.6.0.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.validation/validation-api/1.1.0.Final/8613ae82954779d518631e05daa73a6a954817d5/validation-api-1.1.0.Final.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish/javax.json/1.0.4/3178f73569fd7a1e5ffc464e680f7a8cc784b85a/javax.json-1.0.4.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.swagger/swagger-core/1.5.13/59b5af31a8c2ab50ff6cb1cdae7c5b65afa141f7/swagger-core-1.5.13.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.reflections/reflections/0.9.10/c7f4ea230aedc757ca1499ebcfb2953c81cf8b67/reflections-0.9.10.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/20.0/89507701249388e1ed5ddcf8c41f4ce1be7831ef/guava-20.0.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jvnet.mimepull/mimepull/1.8/e0b2ed6e9ccaafe3e96294a181c09e3aae18aa90/mimepull-1.8.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/hk2-utils/2.5.0-b32/5108a926988c4ceda7f1e681dddfe3101454a002/hk2-utils-2.5.0-b32.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2.external/aopalliance-repackaged/2.5.0-b32/6af37c3f8ec6f9e9653ec837eb508da28ce443cd/aopalliance-repackaged-2.5.0-b32.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.javassist/javassist/3.20.0-GA/a9cbcdfb7e9f86fbc74d3afae65f2248bfbf82a0/javassist-3.20.0-GA.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.persistence/org.eclipse.persistence.asm/2.6.0/890f41b3b451f4f9a414b226c7e39c62c3bd0307/org.eclipse.persistence.asm-2.6.0.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.2.1/66f13681add50ca9e4546ffabafaaac7645db3cf/commons-lang3-3.2.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.22/a1c83373863cec7ae8d89dc1c5722d8cb6ec0309/slf4j-api-1.7.22.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.8.5/dee4732dc03b6f3ce231fd065dcbbed25755b58f/jackson-dataformat-yaml-2.8.5.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.swagger/swagger-models/1.5.13/571a0046f35f9dac569a1870465248595e33ccdb/swagger-models-1.5.13.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/annotations/2.0.1/9ef6656259841cebfb9fb0697bb122ada4485498/annotations-2.0.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/1.17/7a27ea250c5130b2922b86dea63cbb1cc10a660c/snakeyaml-1.17.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.swagger/swagger-annotations/1.5.13/72433c890a61a876d22063e269be421c810a1a8d/swagger-annotations-1.5.13.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.8.5/b3035f37e674c04dafe36a660c3815cc59f764e2/jackson-databind-2.8.5.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.core/jersey-client/2.25.1/4d563b1f93352ee9fad597e9e1daf2c6159993c6/jersey-client-2.25.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.media/jersey-media-jaxb/2.25.1/d7da0beeed5614a3bfd882662faec602699e24b/jersey-media-jaxb-2.25.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.8.5/9d82ff47bc2c2d3b5b6a6618fe636782bbcd5b07/jackson-annotations-2.8.5.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.8.5/60d059f5d2930ccd1ef03535b713fd9f933d1ba7/jackson-core-2.8.5.jar" />
         </element>
       </element>
       <element id="directory" name="META-INF">
