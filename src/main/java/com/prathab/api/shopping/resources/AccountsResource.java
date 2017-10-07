@@ -71,7 +71,7 @@ public class AccountsResource {
       @ApiParam(value = "Should contain mobile, password", required = true) Users users) {
 
     System.out.println(users.getMobile() + " " + users.getPassword());
-    
+
     boolean isUserDataValid = true;
     if (Validators.isStringEmpty(users.getMobile())
         || Validators.isStringEmpty(users.getPassword())) {

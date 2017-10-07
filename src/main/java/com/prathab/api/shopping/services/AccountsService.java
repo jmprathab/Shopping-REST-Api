@@ -19,7 +19,7 @@ import org.bson.Document;
 import org.mindrot.jbcrypt.BCrypt;
 
 import static com.mongodb.client.model.Filters.eq;
-import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_NAME;
+import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_USERS;
 import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_USERS_EMAIL;
 import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_USERS_MOBILE;
 import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_USERS_NAME;
@@ -34,7 +34,7 @@ public class AccountsService {
 
   public static Response loginTheUser(UriInfo uriInfo, Users users) {
     MongoCollection<Document> collection = MongoClientService
-        .getCollection(DB_DATABASE_NAME, DB_COLLECTION_NAME);
+        .getCollection(DB_DATABASE_NAME, DB_COLLECTION_USERS);
 
     Document fetchedDocument = collection
         .find(eq(DB_COLLECTION_USERS_MOBILE, users.getMobile()))
@@ -68,7 +68,7 @@ public class AccountsService {
 
   public static Response createNewAccount(UriInfo uriInfo, Users users) {
     MongoCollection<Document> collection =
-        MongoClientService.getCollection(DB_DATABASE_NAME, DB_COLLECTION_NAME);
+        MongoClientService.getCollection(DB_DATABASE_NAME, DB_COLLECTION_USERS);
     Document fetchedDocument =
         collection.find(eq(DB_COLLECTION_USERS_MOBILE, users.getMobile())).first();
 
@@ -104,7 +104,7 @@ public class AccountsService {
 
   public static Response forgotPassword(UriInfo uriInfo, Users users) {
     MongoCollection<Document> collection =
-        MongoClientService.getCollection(DB_DATABASE_NAME, DB_COLLECTION_NAME);
+        MongoClientService.getCollection(DB_DATABASE_NAME, DB_COLLECTION_USERS);
     Document fetchedDocument =
         collection.find(eq(DB_COLLECTION_USERS_EMAIL, users.getEmail())).first();
 
@@ -136,7 +136,7 @@ public class AccountsService {
 
   public static Response deleteAccount(UriInfo uriInfo, Users users) {
     MongoCollection<Document> collection = MongoClientService
-        .getCollection(DB_DATABASE_NAME, DB_COLLECTION_NAME);
+        .getCollection(DB_DATABASE_NAME, DB_COLLECTION_USERS);
 
     Document fetchedDocument = collection
         .find(eq(DB_COLLECTION_USERS_MOBILE, users.getMobile()))
