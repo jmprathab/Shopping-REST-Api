@@ -20,6 +20,7 @@ public class DBConstants {
   /**
    * Products collection constants
    */
+  public static final String DB_COLLECTION_PRODUCTS_ID = "_id";
   public static final String DB_COLLECTION_PRODUCTS = "products";
   public static final String DB_COLLECTION_PRODUCTS_NAME = "name";
   public static final String DB_COLLECTION_PRODUCTS_PRICE = "price";

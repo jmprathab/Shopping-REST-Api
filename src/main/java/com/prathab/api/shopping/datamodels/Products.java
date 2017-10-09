@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Products {
+  private String id;
   private String name;
   private String price;
   private int rating;
@@ -12,8 +13,12 @@ public class Products {
   private ArrayList<String> tags;
   private String description;
 
-  public Products(String name, String price, int rating, ArrayList<String> images,
-      ArrayList<String> tags, String description) {
+  public Products() {
+  }
+
+  public Products(String id, String name, String price, int rating,
+      ArrayList<String> images, ArrayList<String> tags, String description) {
+    this.id = id;
     this.name = name;
     this.price = price;
     this.rating = rating;
@@ -22,12 +27,10 @@ public class Products {
     this.description = description;
   }
 
-  public Products() {
-  }
-
   @Override public String toString() {
     final StringBuilder sb = new StringBuilder("Products{");
-    sb.append("name='").append(name).append('\'');
+    sb.append("id='").append(id).append('\'');
+    sb.append(", name='").append(name).append('\'');
     sb.append(", price='").append(price).append('\'');
     sb.append(", rating=").append(rating);
     sb.append(", images=").append(images);
@@ -35,6 +38,27 @@ public class Products {
     sb.append(", description='").append(description).append('\'');
     sb.append('}');
     return sb.toString();
+  }
+
+  @Override public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Products products = (Products) o;
+
+    return id.equals(products.id);
+  }
+
+  @Override public int hashCode() {
+    return id.hashCode();
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
   }
 
   public String getName() {

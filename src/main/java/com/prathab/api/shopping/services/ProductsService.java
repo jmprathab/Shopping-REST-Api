@@ -8,9 +8,11 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS;
 import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS_DESCRIPTION;
+import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS_ID;
 import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS_IMAGES;
 import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS_NAME;
 import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS_PRICE;
@@ -37,6 +39,8 @@ public class ProductsService {
     try {
       while (fetchedDocument.hasNext()) {
         Document current = fetchedDocument.next();
+        ObjectId objectId = current.getObjectId(DB_COLLECTION_PRODUCTS_ID);
+        String id = objectId.toString();
         String name = current.getString(DB_COLLECTION_PRODUCTS_NAME);
         String price = current.getString(DB_COLLECTION_PRODUCTS_PRICE);
         int rating = current.getInteger(DB_COLLECTION_PRODUCTS_RATING);
@@ -57,7 +61,7 @@ public class ProductsService {
 
         String description = current.getString(DB_COLLECTION_PRODUCTS_DESCRIPTION);
 
-        Products products = new Products(name, price, rating, images, tags, description);
+        Products products = new Products(id, name, price, rating, images, tags, description);
 
         productsList.add(products);
 
