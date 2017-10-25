@@ -2,8 +2,10 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="shopping-rest-api_main" target="1.8" />
-      <module name="shopping-rest-api_test" target="1.8" />
+      <module name="api_main" target="1.8" />
+      <module name="api_test" target="1.8" />
+      <module name="database_main" target="1.8" />
+      <module name="database_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
