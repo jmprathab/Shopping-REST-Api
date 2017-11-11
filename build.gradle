@@ -1,6 +1,10 @@
 group 'com.prathab.rest'
 version '1.0-SNAPSHOT'
 
+allprojects {
+  apply plugin: 'java'
+}
+
 subprojects {
   repositories {
     mavenCentral()

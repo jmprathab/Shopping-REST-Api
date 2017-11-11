@@ -1,8 +1,6 @@
 group 'com.prathab.rest.database'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
-
 ext {
   mongodbJavaDriver = "3.5.0"
 }
