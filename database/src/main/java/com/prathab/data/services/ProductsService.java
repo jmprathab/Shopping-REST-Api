@@ -2,14 +2,12 @@ package com.prathab.data.services;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.prathab.data.constants.DBConstants;
 import com.prathab.data.datamodels.Products;
 import com.prathab.data.mongodb.MongoClientService;
 import java.util.ArrayList;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS;
 import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS_DESCRIPTION;
 import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS_ID;
 import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS_IMAGES;
@@ -28,8 +26,7 @@ public class ProductsService {
     }
 
     ArrayList<Products> productsList = new ArrayList<>();
-    MongoCollection<Document> collection = MongoClientService
-        .getCollection(DBConstants.DB_DATABASE_NAME, DB_COLLECTION_PRODUCTS);
+    MongoCollection<Document> collection = MongoClientService.getProductsCollection();
 
     MongoCursor<Document> fetchedDocument =
         collection.find().skip(page > 0 ? ((page - 1) * limit) : 0).limit(limit).iterator();

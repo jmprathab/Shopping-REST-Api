@@ -9,6 +9,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/database/database_main.iml" filepath="$PROJECT_DIR$/.idea/modules/database/database_main.iml" group="database" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/database/database_test.iml" filepath="$PROJECT_DIR$/.idea/modules/database/database_test.iml" group="database" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/shopping-rest-api.iml" filepath="$PROJECT_DIR$/.idea/modules/shopping-rest-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/shopping-rest-api_main.iml" filepath="$PROJECT_DIR$/.idea/modules/shopping-rest-api_main.iml" group="shopping-rest-api" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/shopping-rest-api_test.iml" filepath="$PROJECT_DIR$/.idea/modules/shopping-rest-api_test.iml" group="shopping-rest-api" />
     </modules>
   </component>
 </project>
