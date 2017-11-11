@@ -1,4 +1,4 @@
-package com.prathab.api.shopping.services;
+package com.prathab.data.services;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
