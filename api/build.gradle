@@ -4,31 +4,44 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'war'
 
+ext {
+  jersey = "2.26"
+  mongodbJavaDriver = "3.5.0"
+  jwt = "3.2.0"
+  jbcrypt = "0.4"
+  libPhoneNumber = "8.8.2"
+  commonsValidator = "1.6"
+  swagger = "1.5.16"
+  javaxMail = "1.5.0-b01"
+}
+
 dependencies {
 
   compile project(":database")
+
   //Jersey
-  compile 'org.glassfish.jersey.core:jersey-common:2.26'
-  compile "org.glassfish.jersey.containers:jersey-container-servlet-core:2.26"
-  compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.26'
-  compile "org.glassfish.jersey.media:jersey-media-moxy:2.26"
+  compile "org.glassfish.jersey.core:jersey-common:${jersey}"
+  compile "org.glassfish.jersey.containers:jersey-container-servlet-core:${jersey}"
+  compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: "${jersey}"
+  compile "org.glassfish.jersey.media:jersey-media-moxy:${jersey}"
 
   //Mongodb
-  compile 'org.mongodb:mongo-java-driver:3.5.0'
+  compile "org.mongodb:mongo-java-driver:${mongodbJavaDriver}"
 
   //JWT
-  compile "com.auth0:java-jwt:3.2.0"
+  compile "com.auth0:java-jwt:${jwt}"
 
   //JBCrypt
-  compile "org.mindrot:jbcrypt:0.4"
+  compile "org.mindrot:jbcrypt:${jbcrypt}"
 
   //Validators
-  compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.8.2'
-  compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
+  compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber',
+          version: "${libPhoneNumber}"
+  compile group: 'commons-validator', name: 'commons-validator', version: "${commonsValidator}"
 
   //Swagger
-  compile group: 'io.swagger', name: 'swagger-jersey2-jaxrs', version: '1.5.16'
+  compile group: 'io.swagger', name: 'swagger-jersey2-jaxrs', version: "${swagger}"
 
   //Javax Mail
-  compile group: 'javax.mail', name: 'mail', version: '1.5.0-b01'
+  compile group: 'javax.mail', name: 'mail', version: "${javaxMail}"
 }

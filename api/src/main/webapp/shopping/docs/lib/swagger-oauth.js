@@ -8,9 +8,9 @@ function handleLogin() {
         var t;
         if (Array.isArray(a.scopes)) {
           var p;
-          for (p = 0; p < a.scopes.length; p++)e.push(a.scopes[p])
+          for (p = 0; p < a.scopes.length; p++) e.push(a.scopes[p])
         } else {
-          for (t in a.scopes)e.push({scope: t, description: a.scopes[t], OAuthSchemeKey: i})
+          for (t in a.scopes) e.push({scope: t, description: a.scopes[t], OAuthSchemeKey: i})
         }
       }
     }
@@ -40,8 +40,8 @@ function handleLogin() {
         + t.description
         + "</span>"), str += "</label></li>", popup.append(str);
   }
-  var r = $(window), s = r.width(), c = r.height(), l = r.scrollTop(), d = popupDialog.outerWidth(), u = popupDialog.outerHeight(), h = (c
-      - u) / 2 + l, g = (s - d) / 2;
+  var r = $(window), s = r.width(), c = r.height(), l = r.scrollTop(), d = popupDialog.outerWidth(),
+      u = popupDialog.outerHeight(), h = (c - u) / 2 + l, g = (s - d) / 2;
   popupDialog.css({
     top: (h < 0 ? 0 : h) + "px", left: (g < 0 ? 0 : g) + "px"
   }), popupDialog.find("button.api-popup-cancel").click(function () {
@@ -52,12 +52,10 @@ function handleLogin() {
     }
 
     popupMask.hide(), popupDialog.hide();
-    var o, i = window.swaggerUi.api.authSchemes, n = window.location, a = location.pathname.substring(0, location.pathname.lastIndexOf("/")), t = n.protocol
-        + "//"
-        + n.host
-        + a
-        + "/o2c.html", p = window.oAuthRedirectUrl
-        || t, r = null, s = [], c = popup.find("input:checked"), l = [];
+    var o, i = window.swaggerUi.api.authSchemes, n = window.location,
+        a = location.pathname.substring(0, location.pathname.lastIndexOf("/")),
+        t = n.protocol + "//" + n.host + a + "/o2c.html", p = window.oAuthRedirectUrl || t,
+        r = null, s = [], c = popup.find("input:checked"), l = [];
     for (k = 0; k < c.length; k++) {
       var d = $(c[k]).attr("scope");
       s.indexOf(d) === -1 && s.push(d);
@@ -92,7 +90,7 @@ function handleLogin() {
         } else {
           var w = i[h];
           r = w.authorizationUrl + "?response_type=" + ("implicit"
-              === g ? "token" : "code"), window.swaggerUi.tokenName = e(w)
+          === g ? "token" : "code"), window.swaggerUi.tokenName = e(w)
               || "access_token", window.swaggerUi.tokenUrl = "accessCode"
           === g ? w.tokenUrl : null, o = h
         }
@@ -108,10 +106,12 @@ function handleLogin() {
     window.open(r)
   }), popupMask.show(), popupDialog.show()
 }
+
 function handleLogout() {
-  for (key in window.swaggerUi.api.clientAuthorizations.authz)window.swaggerUi.api.clientAuthorizations.remove(key);
+  for (key in window.swaggerUi.api.clientAuthorizations.authz) window.swaggerUi.api.clientAuthorizations.remove(key);
   window.enabledScopes = null, $(".api-ic.ic-on").addClass("ic-off"), $(".api-ic.ic-on").removeClass("ic-on"), $(".api-ic.ic-warning").addClass("ic-error"), $(".api-ic.ic-warning").removeClass("ic-warning")
 }
+
 function initOAuth(e) {
   var o = e || {}, i = [];
   return appName = o.appName || i.push("missing appName"), popupMask = o.popupMask
@@ -126,6 +126,7 @@ function initOAuth(e) {
     $(e.target).hasClass("ic-off") ? handleLogin() : handleLogout()
   }))
 }
+
 function clientCredentialsFlow(e, o, i) {
   var n = {
     client_id: clientId,
@@ -141,15 +142,15 @@ function clientCredentialsFlow(e, o, i) {
     }
   })
 }
-var appName, popupMask, popupDialog, clientId, realm, redirect_uri, clientSecret, scopeSeparator, additionalQueryStringParams;
+
+var appName, popupMask, popupDialog, clientId, realm, redirect_uri, clientSecret, scopeSeparator,
+    additionalQueryStringParams;
 window.processOAuthCode = function (e) {
-  var o = e.state, i = window.location, n = location.pathname.substring(0, location.pathname.lastIndexOf("/")), a = i.protocol
-      + "//"
-      + i.host
-      + n
-      + "/o2c.html", t = window.oAuthRedirectUrl || a, p = {
-    client_id: clientId, code: e.code, grant_type: "authorization_code", redirect_uri: t
-  };
+  var o = e.state, i = window.location,
+      n = location.pathname.substring(0, location.pathname.lastIndexOf("/")),
+      a = i.protocol + "//" + i.host + n + "/o2c.html", t = window.oAuthRedirectUrl || a, p = {
+        client_id: clientId, code: e.code, grant_type: "authorization_code", redirect_uri: t
+      };
   clientSecret && (p.client_secret = clientSecret), $.ajax({
     url: window.swaggerUiAuth.tokenUrl, type: "POST", data: p, success: function (e, i, n) {
       onOAuthComplete(e, o)

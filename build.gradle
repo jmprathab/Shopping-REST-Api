@@ -1,8 +1,8 @@
 group 'com.prathab.rest'
 version '1.0-SNAPSHOT'
 
-subprojects{
-    repositories {
+subprojects {
+  repositories {
     mavenCentral()
   }
 }
