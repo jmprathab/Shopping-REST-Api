@@ -1,4 +1,4 @@
-package com.prathab.data.services;
+package com.prathab.data.mongodb;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -15,11 +15,12 @@ public class MongoClientService {
     return sMongoClient;
   }
 
-  static MongoDatabase getDatabase(String database) {
+  public static MongoDatabase getDatabase(String database) {
     return sMongoClient.getDatabase(database);
   }
 
-  static MongoCollection<Document> getCollection(String databaseName, String collectionName) {
+  public static MongoCollection<Document> getCollection(String databaseName,
+      String collectionName) {
     return getDatabase(databaseName).getCollection(collectionName);
   }
 

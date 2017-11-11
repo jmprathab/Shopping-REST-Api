@@ -1,4 +1,4 @@
-package com.prathab.api.shopping.datamodels;
+package com.prathab.data.datamodels;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

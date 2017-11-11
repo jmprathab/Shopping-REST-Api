@@ -1,27 +1,25 @@
-package com.prathab.api.shopping.services;
+package com.prathab.data.services;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.prathab.api.shopping.datamodels.Products;
+import com.prathab.data.constants.DBConstants;
+import com.prathab.data.datamodels.Products;
+import com.prathab.data.mongodb.MongoClientService;
 import java.util.ArrayList;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS;
-import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS_DESCRIPTION;
-import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS_ID;
-import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS_IMAGES;
-import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS_NAME;
-import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS_PRICE;
-import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS_RATING;
-import static com.prathab.api.shopping.constants.DBConstants.DB_COLLECTION_PRODUCTS_TAGS;
-import static com.prathab.api.shopping.constants.DBConstants.DB_DATABASE_NAME;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS_DESCRIPTION;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS_ID;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS_IMAGES;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS_NAME;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS_PRICE;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS_RATING;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS_TAGS;
 
 public class ProductsService {
-  public static Response fetchProducts(UriInfo uriInfo, int page, int limit) {
+  public static ArrayList<Products> getProducts(int page, int limit) {
     if (page < 0 || page > 1000) {
       page = 0;
     }
@@ -31,7 +29,7 @@ public class ProductsService {
 
     ArrayList<Products> productsList = new ArrayList<>();
     MongoCollection<Document> collection = MongoClientService
-        .getCollection(DB_DATABASE_NAME, DB_COLLECTION_PRODUCTS);
+        .getCollection(DBConstants.DB_DATABASE_NAME, DB_COLLECTION_PRODUCTS);
 
     MongoCursor<Document> fetchedDocument =
         collection.find().skip(page > 0 ? ((page - 1) * limit) : 0).limit(limit).iterator();
@@ -48,16 +46,12 @@ public class ProductsService {
         ArrayList<String> imagesBasicDBList =
             (ArrayList<String>) current.get(DB_COLLECTION_PRODUCTS_IMAGES);
         ArrayList<String> images = new ArrayList<>();
-        for (String anImagesBasicDBList : imagesBasicDBList) {
-          images.add(anImagesBasicDBList);
-        }
+        images.addAll(imagesBasicDBList);
 
         ArrayList<String> tagsBasicDBList =
             (ArrayList<String>) current.get(DB_COLLECTION_PRODUCTS_TAGS);
         ArrayList<String> tags = new ArrayList<>();
-        for (String aTagsBasicDBList : tagsBasicDBList) {
-          tags.add(aTagsBasicDBList);
-        }
+        tags.addAll(tagsBasicDBList);
 
         String description = current.getString(DB_COLLECTION_PRODUCTS_DESCRIPTION);
 
@@ -71,10 +65,6 @@ public class ProductsService {
       fetchedDocument.close();
     }
 
-    GenericEntity<ArrayList<Products>> entity =
-        new GenericEntity<ArrayList<Products>>(productsList) {
-        };
-
-    return Response.ok().entity(entity).build();
+    return productsList;
   }
 }

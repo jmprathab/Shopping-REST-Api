@@ -1,4 +1,4 @@
-package com.prathab.api.shopping.constants;
+package com.prathab.data.constants;
 
 public class DBConstants {
 

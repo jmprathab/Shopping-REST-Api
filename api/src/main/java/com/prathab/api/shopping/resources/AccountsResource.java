@@ -1,13 +1,22 @@
 package com.prathab.api.shopping.resources;
 
-import com.prathab.api.shopping.datamodels.Users;
-import com.prathab.api.shopping.services.AccountsService;
+import com.prathab.api.shopping.constants.HttpConstants;
 import com.prathab.api.shopping.utility.Validators;
+import com.prathab.data.datamodels.Users;
+import com.prathab.data.services.AccountsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.HashMap;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -18,8 +27,18 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
+import org.bson.Document;
+import org.mindrot.jbcrypt.BCrypt;
 
 import static com.prathab.api.shopping.constants.HttpConstants.HTTP_PARAM_EMAIL;
+import static com.prathab.api.shopping.constants.JwtConstants.JWT_CLAIM_MOBILE;
+import static com.prathab.api.shopping.constants.JwtConstants.JWT_CLAIM_NAME;
+import static com.prathab.api.shopping.constants.JwtConstants.JWT_CLAIM_USERS_TYPE;
+import static com.prathab.api.shopping.utility.JwtUtility.createAndGetJWT;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_EMAIL;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_MOBILE;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_NAME;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_PASSWORD;
 
 @Api(value = "/accounts", description = "Operations on User's account")
 @Path("/accounts")
@@ -45,14 +64,45 @@ public class AccountsResource {
 
       isUserDataValid = false;
     }
-    String validatedMobile;
-    validatedMobile = Validators.getInternationalPhoneNumber(users.getMobile());
+
+    String validatedMobile = Validators.getInternationalPhoneNumber(users.getMobile());
     if (validatedMobile == null) {
       isUserDataValid = false;
     }
     users.setMobile(validatedMobile);
     if (isUserDataValid) {
-      return AccountsService.createNewAccount(uriInfo, users);
+      Document fetchedDocument = AccountsService.createNewAccount(users);
+
+      if (fetchedDocument != null) {
+        return Response.status(Status.CONFLICT).build();
+      }
+
+      // Create a new account
+      String hashedPassword = BCrypt.hashpw(users.getPassword(), BCrypt.gensalt(12));
+
+      Document newUser = new Document(DB_COLLECTION_USERS_NAME, users.getName());
+      newUser.append(DB_COLLECTION_USERS_MOBILE, users.getMobile());
+      newUser.append(DB_COLLECTION_USERS_PASSWORD, hashedPassword);
+
+      /*
+      try {
+        collection.insertOne(newUser);
+      } catch (Exception e) {
+        return Response.status(Status.BAD_REQUEST).build();
+      }
+      */
+
+      HashMap<String, String> claims = new HashMap<>();
+      claims.put(JWT_CLAIM_NAME, users.getName());
+      claims.put(JWT_CLAIM_MOBILE, users.getMobile());
+      claims.put(JWT_CLAIM_USERS_TYPE, Users.UsersTypes.USER);
+
+      String jwt = createAndGetJWT(claims);
+
+      if (jwt != null) {
+        return Response.ok().header(HttpConstants.HTTP_HEADER_TOKEN, jwt).build();
+      }
+      return Response.status(Status.BAD_REQUEST).build();
     }
     return Response.status(Status.BAD_REQUEST).build();
   }
@@ -87,7 +137,32 @@ public class AccountsResource {
 
     users.setMobile(validatedMobile);
     if (isUserDataValid) {
-      return AccountsService.loginTheUser(uriInfo, users);
+      Document fetchedDocument = AccountsService.loginTheUser(users);
+
+      if (fetchedDocument == null
+          || !BCrypt.checkpw(users.getPassword(),
+          fetchedDocument.getString(DB_COLLECTION_USERS_PASSWORD))) {
+
+        return Response.status(Status.UNAUTHORIZED).build();
+      }
+
+      users.setName(fetchedDocument.getString(DB_COLLECTION_USERS_NAME));
+
+      HashMap<String, String> claims = new HashMap<>();
+      claims.put(JWT_CLAIM_NAME, users.getName());
+      claims.put(JWT_CLAIM_MOBILE, users.getMobile());
+      claims.put(JWT_CLAIM_USERS_TYPE, Users.UsersTypes.USER);
+
+      System.out.println(users.getName() + " " + users.getMobile() + " " + users.getPassword());
+
+      String jwt = createAndGetJWT(claims);
+
+      if (jwt != null) {
+        return Response.ok(users, MediaType.APPLICATION_JSON_TYPE)
+            .header(HttpConstants.HTTP_HEADER_TOKEN, jwt)
+            .build();
+      }
+      return Response.status(Status.BAD_REQUEST).build();
     }
     return Response.status(Status.UNAUTHORIZED).build();
   }
@@ -112,7 +187,32 @@ public class AccountsResource {
     if (isUserDataValid) {
       Users users = new Users.Builder()
           .setEmail(email).build();
-      return AccountsService.forgotPassword(uriInfo, users);
+      Document fetchedDocument = AccountsService.forgotPassword(users);
+
+      if (fetchedDocument == null) {
+        return Response.status(Status.BAD_REQUEST).build();
+      }
+
+      String to = fetchedDocument.getString(DB_COLLECTION_USERS_EMAIL);
+      String from = "admin@shopping.com";
+
+      Properties properties = System.getProperties();
+      properties.setProperty("mail.smtp.host", "localhost");
+
+      Session session = Session.getDefaultInstance(properties);
+
+      try {
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(from));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        message.setSubject("Reset Password for your Shopping account");
+        message.setText("You will be getting an email from us shortly to reset your password");
+        Transport.send(message);
+      } catch (MessagingException e) {
+        return Response.status(Status.UNAUTHORIZED).build();
+      }
+      //TODO Send correct link to reset password
+      return Response.ok().build();
     }
     return Response.status(Status.UNAUTHORIZED).build();
   }
@@ -144,7 +244,17 @@ public class AccountsResource {
     users.setMobile(validatedMobile);
 
     if (isUserDataValid) {
-      return AccountsService.deleteAccount(uriInfo, users);
+      Document fetchedDocument = AccountsService.deleteAccount(users);
+      if (fetchedDocument == null
+          || !BCrypt.checkpw(users.getPassword(),
+          fetchedDocument.getString(DB_COLLECTION_USERS_PASSWORD))) {
+
+        return Response.status(Status.UNAUTHORIZED).build();
+      }
+      /*
+      collection.deleteOne(fetchedDocument);
+      */
+      return Response.ok().build();
     }
     return Response.status(Status.UNAUTHORIZED).build();
   }
