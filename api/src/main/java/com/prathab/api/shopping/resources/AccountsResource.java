@@ -2,6 +2,7 @@ package com.prathab.api.shopping.resources;
 
 import com.prathab.api.shopping.constants.HttpConstants;
 import com.prathab.api.shopping.utility.Validators;
+import com.prathab.data.constants.DBConstants;
 import com.prathab.data.datamodels.Users;
 import com.prathab.data.services.AccountsService;
 import io.swagger.annotations.Api;
@@ -71,7 +72,8 @@ public class AccountsResource {
     }
     users.setMobile(validatedMobile);
     if (isUserDataValid) {
-      Document fetchedDocument = AccountsService.createNewAccount(users);
+      Document fetchedDocument =
+          AccountsService.fetch(DBConstants.DB_COLLECTION_USERS_MOBILE, users.getMobile());
 
       if (fetchedDocument != null) {
         return Response.status(Status.CONFLICT).build();
@@ -84,13 +86,11 @@ public class AccountsResource {
       newUser.append(DB_COLLECTION_USERS_MOBILE, users.getMobile());
       newUser.append(DB_COLLECTION_USERS_PASSWORD, hashedPassword);
 
-      /*
       try {
-        collection.insertOne(newUser);
+        AccountsService.insert(newUser);
       } catch (Exception e) {
         return Response.status(Status.BAD_REQUEST).build();
       }
-      */
 
       HashMap<String, String> claims = new HashMap<>();
       claims.put(JWT_CLAIM_NAME, users.getName());
@@ -137,7 +137,8 @@ public class AccountsResource {
 
     users.setMobile(validatedMobile);
     if (isUserDataValid) {
-      Document fetchedDocument = AccountsService.loginTheUser(users);
+      Document fetchedDocument =
+          AccountsService.fetch(DBConstants.DB_COLLECTION_USERS_EMAIL, users.getMobile());
 
       if (fetchedDocument == null
           || !BCrypt.checkpw(users.getPassword(),
@@ -187,7 +188,8 @@ public class AccountsResource {
     if (isUserDataValid) {
       Users users = new Users.Builder()
           .setEmail(email).build();
-      Document fetchedDocument = AccountsService.forgotPassword(users);
+      Document fetchedDocument =
+          AccountsService.fetch(DBConstants.DB_COLLECTION_USERS_EMAIL, users.getEmail());
 
       if (fetchedDocument == null) {
         return Response.status(Status.BAD_REQUEST).build();
@@ -244,16 +246,17 @@ public class AccountsResource {
     users.setMobile(validatedMobile);
 
     if (isUserDataValid) {
-      Document fetchedDocument = AccountsService.deleteAccount(users);
+      Document fetchedDocument =
+          AccountsService.fetch(DBConstants.DB_COLLECTION_USERS_MOBILE, users.getMobile());
       if (fetchedDocument == null
           || !BCrypt.checkpw(users.getPassword(),
           fetchedDocument.getString(DB_COLLECTION_USERS_PASSWORD))) {
 
         return Response.status(Status.UNAUTHORIZED).build();
       }
-      /*
-      collection.deleteOne(fetchedDocument);
-      */
+
+      AccountsService.delete(fetchedDocument);
+
       return Response.ok().build();
     }
     return Response.status(Status.UNAUTHORIZED).build();

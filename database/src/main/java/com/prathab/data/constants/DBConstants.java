@@ -8,20 +8,23 @@ public class DBConstants {
   public static final String DB_DATABASE_NAME = "Shopping";
 
   /**
-   * Users collection constants
+   * Collection/Table names
    */
   public static final String DB_COLLECTION_USERS = "users";
+  public static final String DB_COLLECTION_PRODUCTS = "products";
 
+  /**
+   * Users Collection/Table column names
+   */
   public static final String DB_COLLECTION_USERS_NAME = "name";
   public static final String DB_COLLECTION_USERS_EMAIL = "email";
   public static final String DB_COLLECTION_USERS_MOBILE = "mobile";
   public static final String DB_COLLECTION_USERS_PASSWORD = "password";
 
   /**
-   * Products collection constants
+   * Products Collection/Table column names
    */
   public static final String DB_COLLECTION_PRODUCTS_ID = "_id";
-  public static final String DB_COLLECTION_PRODUCTS = "products";
   public static final String DB_COLLECTION_PRODUCTS_NAME = "name";
   public static final String DB_COLLECTION_PRODUCTS_PRICE = "price";
   public static final String DB_COLLECTION_PRODUCTS_RATING = "rating";

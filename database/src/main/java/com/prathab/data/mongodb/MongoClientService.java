@@ -3,6 +3,7 @@ package com.prathab.data.mongodb;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.prathab.data.constants.DBConstants;
 import org.bson.Document;
 
 public class MongoClientService {
@@ -11,17 +12,19 @@ public class MongoClientService {
 
   private static MongoClient sMongoClient = new MongoClient(MONGODB_HOST, MONGODB_PORT);
 
-  static MongoClient getMongoClient() {
-    return sMongoClient;
+  private MongoClientService() {
   }
 
-  public static MongoDatabase getDatabase(String database) {
-    return sMongoClient.getDatabase(database);
+  private static MongoDatabase getDatabase() {
+    return sMongoClient.getDatabase(DBConstants.DB_DATABASE_NAME);
   }
 
-  public static MongoCollection<Document> getCollection(String databaseName,
-      String collectionName) {
-    return getDatabase(databaseName).getCollection(collectionName);
+  public static MongoCollection<Document> getProductsCollection() {
+    return getDatabase().getCollection(DBConstants.DB_COLLECTION_PRODUCTS);
+  }
+
+  public static MongoCollection<Document> getUsersCollection() {
+    return getDatabase().getCollection(DBConstants.DB_COLLECTION_USERS);
   }
 
   @Override
