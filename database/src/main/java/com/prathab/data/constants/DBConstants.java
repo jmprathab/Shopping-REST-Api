@@ -20,6 +20,10 @@ public class DBConstants {
   public static final String DB_COLLECTION_USERS_EMAIL = "email";
   public static final String DB_COLLECTION_USERS_MOBILE = "mobile";
   public static final String DB_COLLECTION_USERS_PASSWORD = "password";
+  // Cart is embedded collection
+  public static final String DB_COLLECTION_USERS_CART = "cart";
+  public static final String DB_COLLECTION_USERS_CART_PRODUCT_ID = "productId";
+  public static final String DB_COLLECTION_USERS_CART_QUANTITY = "quantity";
 
   /**
    * Products Collection/Table column names

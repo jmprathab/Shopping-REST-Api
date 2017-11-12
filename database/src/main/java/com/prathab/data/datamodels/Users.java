@@ -8,15 +8,25 @@ public class Users {
   private String mobile;
   private String email;
   private String password;
+  private Cart cart;
 
   private Users(Builder builder) {
     this.name = builder.name;
     this.mobile = builder.mobile;
     this.email = builder.email;
     this.password = builder.password;
+    this.cart = builder.cart;
   }
 
   private Users() {
+  }
+
+  public Cart getCart() {
+    return cart;
+  }
+
+  public void setCart(Cart cart) {
+    this.cart = cart;
   }
 
   public String getMobile() {
@@ -61,6 +71,11 @@ public class Users {
     private String mobile;
     private String email;
     private String password;
+    private Cart cart;
+
+    public void setCart(Cart cart) {
+      this.cart = cart;
+    }
 
     public Builder setName(String name) {
       this.name = name;
