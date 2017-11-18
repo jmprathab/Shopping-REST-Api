@@ -1,47 +1,22 @@
 package com.prathab.data.datamodels;
 
+import com.prathab.data.base.dbmodel.DbObject;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Users {
+public class Users implements DbObject {
   private String name;
   private String mobile;
   private String email;
   private String password;
-  private Cart cart;
 
-  private Users(Builder builder) {
-    this.name = builder.name;
-    this.mobile = builder.mobile;
-    this.email = builder.email;
-    this.password = builder.password;
-    this.cart = builder.cart;
+  public Users() {
   }
 
-  private Users() {
-  }
-
-  public Cart getCart() {
-    return cart;
-  }
-
-  public void setCart(Cart cart) {
-    this.cart = cart;
-  }
-
-  public String getMobile() {
-    return mobile;
-  }
-
-  public void setMobile(String mobile) {
+  public Users(String name, String mobile, String email, String password) {
+    this.name = name;
     this.mobile = mobile;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
+    this.email = email;
     this.password = password;
   }
 
@@ -53,6 +28,14 @@ public class Users {
     this.name = name;
   }
 
+  public String getMobile() {
+    return mobile;
+  }
+
+  public void setMobile(String mobile) {
+    this.mobile = mobile;
+  }
+
   public String getEmail() {
     return email;
   }
@@ -61,44 +44,11 @@ public class Users {
     this.email = email;
   }
 
-  public static class UsersTypes {
-    public static final String USER = "users";
-    public static final String ADMINISTRATOR = "admin";
+  public String getPassword() {
+    return password;
   }
 
-  public static class Builder {
-    private String name;
-    private String mobile;
-    private String email;
-    private String password;
-    private Cart cart;
-
-    public void setCart(Cart cart) {
-      this.cart = cart;
-    }
-
-    public Builder setName(String name) {
-      this.name = name;
-      return this;
-    }
-
-    public Builder setMobile(String mobile) {
-      this.mobile = mobile;
-      return this;
-    }
-
-    public Builder setEmail(String email) {
-      this.email = email;
-      return this;
-    }
-
-    public Builder setPassword(String password) {
-      this.password = password;
-      return this;
-    }
-
-    public Users build() {
-      return new Users(this);
-    }
+  public void setPassword(String password) {
+    this.password = password;
   }
 }

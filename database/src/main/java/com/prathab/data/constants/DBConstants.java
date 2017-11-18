@@ -12,23 +12,29 @@ public class DBConstants {
    */
   public static final String DB_COLLECTION_USERS = "users";
   public static final String DB_COLLECTION_PRODUCTS = "products";
+  public static final String DB_COLLECTION_CART = "carts";
 
   /**
-   * Users Collection/Table column names
+   * Users collection/table column names
    */
+  public static final String DB_COLLECTION_USERS_ID = "users_id";
   public static final String DB_COLLECTION_USERS_NAME = "name";
   public static final String DB_COLLECTION_USERS_EMAIL = "email";
   public static final String DB_COLLECTION_USERS_MOBILE = "mobile";
   public static final String DB_COLLECTION_USERS_PASSWORD = "password";
-  // Cart is embedded collection
-  public static final String DB_COLLECTION_USERS_CART = "cart";
-  public static final String DB_COLLECTION_USERS_CART_PRODUCT_ID = "productId";
-  public static final String DB_COLLECTION_USERS_CART_QUANTITY = "quantity";
 
   /**
-   * Products Collection/Table column names
+   * Cart collection/table column names
    */
-  public static final String DB_COLLECTION_PRODUCTS_ID = "_id";
+  public static final String DB_COLLECTION_CARTS_ID = "carts_id";
+  public static final String DB_COLLECTION_CARTS_PRODUCT_ID = "products_id";
+  public static final String DB_COLLECTION_CARTS_USERS_ID = "users_id";
+  public static final String DB_COLLECTION_CARTS_QUANTITY = "quantity";
+
+  /**
+   * Products collection/table column names
+   */
+  public static final String DB_COLLECTION_PRODUCTS_ID = "products_id";
   public static final String DB_COLLECTION_PRODUCTS_NAME = "name";
   public static final String DB_COLLECTION_PRODUCTS_PRICE = "price";
   public static final String DB_COLLECTION_PRODUCTS_RATING = "rating";

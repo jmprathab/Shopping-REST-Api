@@ -6,9 +6,9 @@ apply plugin: 'war'
 ext {
   jersey = "2.26"
   mongodbJavaDriver = "3.5.0"
-  jwt = "3.2.0"
+  jwt = "3.3.0"
   jbcrypt = "0.4"
-  libPhoneNumber = "8.8.2"
+  libPhoneNumber = "8.8.6"
   commonsValidator = "1.6"
   swagger = "1.5.16"
   javaxMail = "1.5.0-b01"
@@ -23,9 +23,6 @@ dependencies {
   compile "org.glassfish.jersey.containers:jersey-container-servlet-core:${jersey}"
   compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: "${jersey}"
   compile "org.glassfish.jersey.media:jersey-media-moxy:${jersey}"
-
-  //Mongodb
-  compile "org.mongodb:mongo-java-driver:${mongodbJavaDriver}"
 
   //JWT
   compile "com.auth0:java-jwt:${jwt}"

@@ -1,7 +1,7 @@
 package com.prathab.api.shopping.resources;
 
 import com.prathab.data.datamodels.Products;
-import com.prathab.data.services.ProductsService;
+import com.prathab.data.mongodb.services.MongoDBProductsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -34,7 +34,7 @@ public class ProductsResource {
   public Response fetchProducts(@Context UriInfo uriInfo, @QueryParam("page") int page,
       @QueryParam("limit") int limit) {
 
-    ArrayList<Products> productsList = ProductsService.getProducts(page, limit);
+    ArrayList<Products> productsList = MongoDBProductsService.getProducts(page, limit);
 
     GenericEntity<ArrayList<Products>> entity =
         new GenericEntity<ArrayList<Products>>(productsList) {

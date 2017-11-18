@@ -2,9 +2,13 @@ package com.prathab.api.shopping.resources;
 
 import com.prathab.api.shopping.constants.HttpConstants;
 import com.prathab.api.shopping.utility.Validators;
-import com.prathab.data.constants.DBConstants;
+import com.prathab.data.base.DbObjectSpec;
+import com.prathab.data.base.DbService;
+import com.prathab.data.base.exception.DbException;
+import com.prathab.data.base.result.DeleteResult;
+import com.prathab.data.base.result.InsertResult;
 import com.prathab.data.datamodels.Users;
-import com.prathab.data.services.AccountsService;
+import com.prathab.data.mongodb.services.MongoDBAccountsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -28,7 +32,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-import org.bson.Document;
 import org.mindrot.jbcrypt.BCrypt;
 
 import static com.prathab.api.shopping.constants.HttpConstants.HTTP_PARAM_EMAIL;
@@ -36,14 +39,12 @@ import static com.prathab.api.shopping.constants.JwtConstants.JWT_CLAIM_MOBILE;
 import static com.prathab.api.shopping.constants.JwtConstants.JWT_CLAIM_NAME;
 import static com.prathab.api.shopping.constants.JwtConstants.JWT_CLAIM_USERS_TYPE;
 import static com.prathab.api.shopping.utility.JwtUtility.createAndGetJWT;
-import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_EMAIL;
-import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_MOBILE;
-import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_NAME;
-import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_PASSWORD;
 
 @Api(value = "/accounts", description = "Operations on User's account")
 @Path("/accounts")
 public class AccountsResource {
+
+  private static final DbService mDbAccountsService = new MongoDBAccountsService();
 
   @ApiOperation(
       value = "Create a new User Account",
@@ -58,44 +59,56 @@ public class AccountsResource {
   public Response createNewAccount(@Context UriInfo uriInfo,
       @ApiParam(value = "Should contain name, mobile, password", required = true) Users users) {
 
-    boolean isUserDataValid = true;
-    if (Validators.isStringEmpty(users.getName())
-        || Validators.isStringEmpty(users.getMobile())
-        || Validators.isStringEmpty(users.getPassword())) {
-
-      isUserDataValid = false;
-    }
+    boolean isUserDataValid = validateUserData(users);
 
     String validatedMobile = Validators.getInternationalPhoneNumber(users.getMobile());
+
     if (validatedMobile == null) {
       isUserDataValid = false;
     }
     users.setMobile(validatedMobile);
-    if (isUserDataValid) {
-      Document fetchedDocument =
-          AccountsService.fetch(DBConstants.DB_COLLECTION_USERS_MOBILE, users.getMobile());
 
-      if (fetchedDocument != null) {
+    if (isUserDataValid) {
+
+      Users readSpec = new Users();
+      readSpec.setMobile(users.getMobile());
+
+      DbObjectSpec spec = new DbObjectSpec(readSpec);
+
+      Users fetchedUsers = null;
+      try {
+        fetchedUsers = (Users) mDbAccountsService.read(spec).getDbObject();
+      } catch (DbException e) {
+        e.printStackTrace();
+      }
+
+      if (fetchedUsers != null) {
         return Response.status(Status.CONFLICT).build();
       }
 
       // Create a new account
       String hashedPassword = BCrypt.hashpw(users.getPassword(), BCrypt.gensalt(12));
 
-      Document newUser = new Document(DB_COLLECTION_USERS_NAME, users.getName());
-      newUser.append(DB_COLLECTION_USERS_MOBILE, users.getMobile());
-      newUser.append(DB_COLLECTION_USERS_PASSWORD, hashedPassword);
+      Users newAccountUsers = new Users();
+      newAccountUsers.setName(users.getName());
+      newAccountUsers.setMobile(users.getMobile());
+      newAccountUsers.setPassword(hashedPassword);
 
+      InsertResult insertResult = null;
       try {
-        AccountsService.insert(newUser);
-      } catch (Exception e) {
+        insertResult = mDbAccountsService.insert(newAccountUsers);
+      } catch (DbException e) {
+        e.printStackTrace();
+      }
+
+      if (!insertResult.isSuccessful()) {
         return Response.status(Status.BAD_REQUEST).build();
       }
 
       HashMap<String, String> claims = new HashMap<>();
       claims.put(JWT_CLAIM_NAME, users.getName());
       claims.put(JWT_CLAIM_MOBILE, users.getMobile());
-      claims.put(JWT_CLAIM_USERS_TYPE, Users.UsersTypes.USER);
+      claims.put(JWT_CLAIM_USERS_TYPE, "User");
 
       String jwt = createAndGetJWT(claims);
 
@@ -105,6 +118,12 @@ public class AccountsResource {
       return Response.status(Status.BAD_REQUEST).build();
     }
     return Response.status(Status.BAD_REQUEST).build();
+  }
+
+  private boolean validateUserData(Users users) {
+    return !Validators.isStringEmpty(users.getName())
+        && !Validators.isStringEmpty(users.getMobile())
+        && !Validators.isStringEmpty(users.getPassword());
   }
 
   @ApiOperation(
@@ -118,48 +137,60 @@ public class AccountsResource {
   @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
   @Produces(MediaType.APPLICATION_JSON)
   public Response loginTheUser(@Context UriInfo uriInfo,
-      @ApiParam(value = "Should contain mobile, password", required = true) Users users) {
+      @ApiParam(value = "Should contain mobile, password", required = true) Users inputUsers) {
 
-    System.out.println(users.getMobile() + " " + users.getPassword());
+    System.out.println(inputUsers.getMobile() + " " + inputUsers.getPassword());
 
     boolean isUserDataValid = true;
-    if (Validators.isStringEmpty(users.getMobile())
-        || Validators.isStringEmpty(users.getPassword())) {
+
+    if (Validators.isStringEmpty(inputUsers.getMobile())
+        || Validators.isStringEmpty(inputUsers.getPassword())) {
 
       isUserDataValid = false;
     }
 
-    String validatedMobile;
-    validatedMobile = Validators.getInternationalPhoneNumber(users.getMobile());
+    String validatedMobile = Validators.getInternationalPhoneNumber(inputUsers.getMobile());
+
     if (validatedMobile == null) {
       isUserDataValid = false;
     }
 
-    users.setMobile(validatedMobile);
-    if (isUserDataValid) {
-      Document fetchedDocument =
-          AccountsService.fetch(DBConstants.DB_COLLECTION_USERS_EMAIL, users.getMobile());
+    inputUsers.setMobile(validatedMobile);
 
-      if (fetchedDocument == null
-          || !BCrypt.checkpw(users.getPassword(),
-          fetchedDocument.getString(DB_COLLECTION_USERS_PASSWORD))) {
+    if (isUserDataValid) {
+      Users readSpec = new Users();
+      readSpec.setMobile(inputUsers.getMobile());
+
+      DbObjectSpec dbSpec = new DbObjectSpec(readSpec);
+
+      Users fetchedUsers = null;
+      try {
+        fetchedUsers = (Users) mDbAccountsService.read(dbSpec).getDbObject();
+      } catch (DbException e) {
+        e.printStackTrace();
+      }
+
+      if (fetchedUsers == null
+          || !BCrypt.checkpw(inputUsers.getPassword(),
+          fetchedUsers.getPassword())) {
 
         return Response.status(Status.UNAUTHORIZED).build();
       }
 
-      users.setName(fetchedDocument.getString(DB_COLLECTION_USERS_NAME));
+      inputUsers.setName(fetchedUsers.getName());
 
       HashMap<String, String> claims = new HashMap<>();
-      claims.put(JWT_CLAIM_NAME, users.getName());
-      claims.put(JWT_CLAIM_MOBILE, users.getMobile());
-      claims.put(JWT_CLAIM_USERS_TYPE, Users.UsersTypes.USER);
+      claims.put(JWT_CLAIM_NAME, inputUsers.getName());
+      claims.put(JWT_CLAIM_MOBILE, inputUsers.getMobile());
+      claims.put(JWT_CLAIM_USERS_TYPE, "User");
 
-      System.out.println(users.getName() + " " + users.getMobile() + " " + users.getPassword());
+      System.out.println(
+          inputUsers.getName() + " " + inputUsers.getMobile() + " " + inputUsers.getPassword());
 
       String jwt = createAndGetJWT(claims);
 
       if (jwt != null) {
-        return Response.ok(users, MediaType.APPLICATION_JSON_TYPE)
+        return Response.ok(inputUsers, MediaType.APPLICATION_JSON_TYPE)
             .header(HttpConstants.HTTP_HEADER_TOKEN, jwt)
             .build();
       }
@@ -186,16 +217,25 @@ public class AccountsResource {
       isUserDataValid = false;
     }
     if (isUserDataValid) {
-      Users users = new Users.Builder()
-          .setEmail(email).build();
-      Document fetchedDocument =
-          AccountsService.fetch(DBConstants.DB_COLLECTION_USERS_EMAIL, users.getEmail());
 
-      if (fetchedDocument == null) {
+      Users users = new Users();
+      users.setEmail(email);
+
+      Users forgotUsersSpec = new Users();
+      forgotUsersSpec.setEmail(email);
+      DbObjectSpec forgotSpec = new DbObjectSpec(forgotUsersSpec);
+      Users fetchedUsers = null;
+      try {
+        fetchedUsers = (Users) mDbAccountsService.read(forgotSpec).getDbObject();
+      } catch (DbException e) {
+        e.printStackTrace();
+      }
+
+      if (fetchedUsers == null) {
         return Response.status(Status.BAD_REQUEST).build();
       }
 
-      String to = fetchedDocument.getString(DB_COLLECTION_USERS_EMAIL);
+      String to = fetchedUsers.getEmail();
       String from = "admin@shopping.com";
 
       Properties properties = System.getProperties();
@@ -238,26 +278,44 @@ public class AccountsResource {
       isUserDataValid = false;
     }
 
-    String validatedMobile;
-    validatedMobile = Validators.getInternationalPhoneNumber(users.getMobile());
+    String validatedMobile = Validators.getInternationalPhoneNumber(users.getMobile());
     if (validatedMobile == null) {
       isUserDataValid = false;
     }
     users.setMobile(validatedMobile);
 
     if (isUserDataValid) {
-      Document fetchedDocument =
-          AccountsService.fetch(DBConstants.DB_COLLECTION_USERS_MOBILE, users.getMobile());
-      if (fetchedDocument == null
-          || !BCrypt.checkpw(users.getPassword(),
-          fetchedDocument.getString(DB_COLLECTION_USERS_PASSWORD))) {
+
+      Users readUsersSpec = new Users();
+      readUsersSpec.setMobile(users.getMobile());
+      DbObjectSpec readSpec = new DbObjectSpec(readUsersSpec);
+
+      Users fetchedUsers = null;
+      try {
+        fetchedUsers = (Users) mDbAccountsService.read(readSpec).getDbObject();
+      } catch (DbException e) {
+        e.printStackTrace();
+      }
+
+      if (fetchedUsers == null
+          || !BCrypt.checkpw(users.getPassword(), fetchedUsers.getPassword())) {
 
         return Response.status(Status.UNAUTHORIZED).build();
       }
 
-      AccountsService.delete(fetchedDocument);
+      Users deleteUsersSpec = new Users();
+      deleteUsersSpec.setMobile(users.getMobile());
+      DbObjectSpec deleteSpec = new DbObjectSpec(deleteUsersSpec);
 
-      return Response.ok().build();
+      DeleteResult deleteResult = null;
+      try {
+        deleteResult = mDbAccountsService.delete(deleteSpec);
+      } catch (DbException e) {
+        e.printStackTrace();
+      }
+      if (deleteResult.isSuccessful()) {
+        return Response.ok().build();
+      }
     }
     return Response.status(Status.UNAUTHORIZED).build();
   }

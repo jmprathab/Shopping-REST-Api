@@ -1,10 +1,11 @@
 package com.prathab.data.datamodels;
 
+import com.prathab.data.base.dbmodel.DbObject;
 import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Products {
+public class Products implements DbObject {
   private String id;
   private String name;
   private String price;

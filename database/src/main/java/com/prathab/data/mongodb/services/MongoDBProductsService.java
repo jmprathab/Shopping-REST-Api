@@ -1,4 +1,4 @@
-package com.prathab.data.services;
+package com.prathab.data.mongodb.services;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -16,7 +16,7 @@ import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS_PRIC
 import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS_RATING;
 import static com.prathab.data.constants.DBConstants.DB_COLLECTION_PRODUCTS_TAGS;
 
-public class ProductsService {
+public class MongoDBProductsService {
   public static ArrayList<Products> getProducts(int page, int limit) {
     if (page < 0 || page > 1000) {
       page = 0;
