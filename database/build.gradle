@@ -6,9 +6,8 @@ ext {
   testng = "6.11"
 }
 
-
 dependencies {
-  //Mongodb
   compile "org.mongodb:mongo-java-driver:${mongodbJavaDriver}"
   testCompile group: 'org.testng', name: 'testng', version: "${testng}"
+  testCompile fileTree(dir: 'testLibs', include: ['*.jar'])
 }
