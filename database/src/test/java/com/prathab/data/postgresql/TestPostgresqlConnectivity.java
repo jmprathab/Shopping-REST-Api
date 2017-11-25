@@ -3,6 +3,7 @@ package com.prathab.data.postgresql;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import org.testng.annotations.Test;
 
 public class TestPostgresqlConnectivity {
@@ -32,6 +33,14 @@ public class TestPostgresqlConnectivity {
       System.out.println("You made it, take control your database now!");
     } else {
       System.out.println("Failed to make connection!");
+      return;
+    }
+
+    Statement statement = connection.createStatement();
+    try {
+      statement.execute("select * from  users")
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
   }
 }
