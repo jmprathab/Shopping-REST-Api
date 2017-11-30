@@ -33,14 +33,6 @@ public class TestPostgresqlConnectivity {
       System.out.println("You made it, take control your database now!");
     } else {
       System.out.println("Failed to make connection!");
-      return;
-    }
-
-    Statement statement = connection.createStatement();
-    try {
-      statement.execute("select * from  users")
-    } catch (SQLException e) {
-      e.printStackTrace();
     }
   }
 }
