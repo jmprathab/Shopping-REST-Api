@@ -2,6 +2,7 @@ group 'com.prathab.rest.api'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'war'
+apply plugin: 'com.bmuschko.tomcat'
 
 ext {
   jersey = "2.26"
@@ -12,6 +13,22 @@ ext {
   commonsValidator = "1.6"
   swagger = "1.5.16"
   javaxMail = "1.5.0-b01"
+  tomcatPlugin = "8.5.16"
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-tomcat-plugin:2.4.2'
+    }
+}
+
+tomcat {
+    httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
+    ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
 }
 
 dependencies {
@@ -40,4 +57,8 @@ dependencies {
 
   //Javax Mail
   compile group: 'javax.mail', name: 'mail', version: "${javaxMail}"
+
+  //Gradle Tomcat plugin
+  tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatPlugin}",
+           "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatPlugin}"
 }
