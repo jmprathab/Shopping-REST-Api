@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 public class TestPostgresqlConnectivity {
 
   @Test
-  public void testPostgresqlInsert() {
+  public void testPostgresqlConnection() {
 
     System.out.println("-------- PostgreSQL JDBC Connection Testing --------");
 

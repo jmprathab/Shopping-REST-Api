@@ -4,10 +4,13 @@ version '1.0-SNAPSHOT'
 ext {
   mongodbJavaDriver = "3.5.0"
   testng = "6.11"
+  mysqlJavaDriver = "6.0.6"
 }
 
 dependencies {
   compile "org.mongodb:mongo-java-driver:${mongodbJavaDriver}"
+  compile group: 'mysql', name: 'mysql-connector-java', version: "${mysqlJavaDriver}"
   testCompile group: 'org.testng', name: 'testng', version: "${testng}"
+  //Downloaded postgre driver manually
   testCompile fileTree(dir: 'testLibs', include: ['*.jar'])
 }
