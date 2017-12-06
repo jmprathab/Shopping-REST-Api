@@ -232,5 +232,6 @@ gradle-app.setting
 
 # Testng output
 database/test-output/
+api/test-output/
 
 # End of https://www.gitignore.io/api/java,macos,maven,gradle,windows,eclipse,java-web,intellij

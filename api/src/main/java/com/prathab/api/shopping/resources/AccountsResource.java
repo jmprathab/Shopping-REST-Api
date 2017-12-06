@@ -1,21 +1,14 @@
 package com.prathab.api.shopping.resources;
 
-import com.prathab.api.shopping.constants.HttpConstants;
-import com.prathab.api.shopping.utility.Validators;
-import com.prathab.data.base.DbObjectSpec;
-import com.prathab.data.base.DbService;
-import com.prathab.data.base.exception.DbException;
-import com.prathab.data.base.result.DeleteResult;
-import com.prathab.data.base.result.InsertResult;
-import com.prathab.data.datamodels.Users;
-import com.prathab.data.mongodb.services.MongoDBAccountsService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import static com.prathab.api.shopping.constants.HttpConstants.HTTP_PARAM_EMAIL;
+import static com.prathab.api.shopping.constants.JwtConstants.JWT_CLAIM_MOBILE;
+import static com.prathab.api.shopping.constants.JwtConstants.JWT_CLAIM_NAME;
+import static com.prathab.api.shopping.constants.JwtConstants.JWT_CLAIM_USERS_TYPE;
+import static com.prathab.api.shopping.utility.JwtUtility.createAndGetJWT;
+
 import java.util.HashMap;
 import java.util.Properties;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -32,19 +25,30 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
+
 import org.mindrot.jbcrypt.BCrypt;
 
-import static com.prathab.api.shopping.constants.HttpConstants.HTTP_PARAM_EMAIL;
-import static com.prathab.api.shopping.constants.JwtConstants.JWT_CLAIM_MOBILE;
-import static com.prathab.api.shopping.constants.JwtConstants.JWT_CLAIM_NAME;
-import static com.prathab.api.shopping.constants.JwtConstants.JWT_CLAIM_USERS_TYPE;
-import static com.prathab.api.shopping.utility.JwtUtility.createAndGetJWT;
+import com.prathab.api.shopping.constants.HttpConstants;
+import com.prathab.api.shopping.utility.Validators;
+import com.prathab.data.base.DbObjectSpec;
+import com.prathab.data.base.DbService;
+import com.prathab.data.base.exception.DbException;
+import com.prathab.data.base.result.DeleteResult;
+import com.prathab.data.base.result.InsertResult;
+import com.prathab.data.datamodels.Users;
+import com.prathab.data.mysql.services.MysqlAccountsService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @Api(value = "/accounts", description = "Operations on User's account")
 @Path("/accounts")
 public class AccountsResource {
 
-  private static final DbService mDbAccountsService = new MongoDBAccountsService();
+  private static final DbService mDbAccountsService = new MysqlAccountsService();
 
   @ApiOperation(
       value = "Create a new User Account",

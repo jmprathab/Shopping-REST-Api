@@ -58,8 +58,8 @@ public class MysqlAccountsService implements DbService {
 			}
 		} catch (Exception e) {
 			System.out.println(e);
+			return null;
 		}
-
 		return new ReadResult(fetchedUsers);
 	}
 
@@ -131,7 +131,7 @@ public class MysqlAccountsService implements DbService {
 			statement.setString(2, mobile);
 			statement.setString(3, password);
 
-			int numRows = statement.executeUpdate(query);
+			int numRows = statement.executeUpdate();
 
 			insertResult.setNumOfRows(numRows);
 			insertResult.setSuccessful(true);
@@ -145,7 +145,7 @@ public class MysqlAccountsService implements DbService {
 
 	@Override
 	public UpdateResult update(DbObjectSpec spec) throws DbException {
-		assert false;
+		System.out.println("Mysql Update operation is not implemented");
 		return null;
 	}
 

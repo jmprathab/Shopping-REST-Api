@@ -8,9 +8,13 @@ ext {
 }
 
 dependencies {
+  //JDBC drivers
   compile "org.mongodb:mongo-java-driver:${mongodbJavaDriver}"
   compile group: 'mysql', name: 'mysql-connector-java', version: "${mysqlJavaDriver}"
+  
+  //Unit test
   testCompile group: 'org.testng', name: 'testng', version: "${testng}"
-  //Downloaded postgre driver manually
+  
+  /*Downloaded postgre driver manually*/
   testCompile fileTree(dir: 'testLibs', include: ['*.jar'])
 }

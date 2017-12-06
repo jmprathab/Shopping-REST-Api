@@ -1,4 +1,4 @@
-package com.prathab.data.postgresql;
+package com.prathab.data.postgresql.services;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,8 +22,8 @@ public class TestPostgresqlConnectivity {
 
     try {
       connection = DriverManager.getConnection(
-          "jdbc:postgresql://127.0.0.1:5432/shopping", "shopping_user",
-          "jaihanuman");
+          "jdbc:postgresql://localhost:5432/shopping", "shopping_user",
+          "shopping_user");
     } catch (SQLException e) {
       e.printStackTrace();
     }
