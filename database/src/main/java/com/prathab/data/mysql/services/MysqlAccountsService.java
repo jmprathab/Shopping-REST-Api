@@ -124,7 +124,7 @@ public class MysqlAccountsService implements DbService {
 					"shopping_user");
 
 			String query = "insert into users (name, mobile, password) values (?,?,?)";
-			System.out.println("Mysql : Delete : " + query);
+			System.out.println("Mysql : Insert : " + query);
 
 			PreparedStatement statement = connection.prepareStatement(query);
 			statement.setString(1, name);
@@ -137,7 +137,7 @@ public class MysqlAccountsService implements DbService {
 			insertResult.setSuccessful(true);
 
 		} catch (Exception e) {
-			System.out.println("Cannot delete user : " + e.getMessage());
+			System.out.println("Cannot insert user : " + e.getMessage());
 			insertResult.setSuccessful(false);
 		}
 		return insertResult;
@@ -145,7 +145,7 @@ public class MysqlAccountsService implements DbService {
 
 	@Override
 	public UpdateResult update(DbObjectSpec spec) throws DbException {
-
+		assert false;
 		return null;
 	}
 
