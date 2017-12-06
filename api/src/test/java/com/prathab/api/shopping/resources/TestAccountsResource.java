@@ -18,8 +18,8 @@ import okhttp3.Response;
 
 @Test
 public class TestAccountsResource {
-	private final String ENDPOINT = "http://localhost:8080/api/shopping/api";
-	
+	private final String ENDPOINT = "http://localhost:8080/shopping/api";
+
 	OkHttpClient mOkHttpClient = new OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS)
 			.readTimeout(15, TimeUnit.SECONDS).writeTimeout(15, TimeUnit.SECONDS).build();
 
