@@ -29,6 +29,7 @@ buildscript {
 }
 
 tomcat {
+	contextPath = '/'
     httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
     ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
 }
@@ -36,7 +37,8 @@ tomcat {
 dependencies {
 
   compile project(":database")
-
+  providedCompile "javax.servlet:javax.servlet-api:3.1.0"
+  
   //Jersey
   compile "org.glassfish.jersey.core:jersey-common:${jersey}"
   compile "org.glassfish.jersey.containers:jersey-container-servlet-core:${jersey}"
