@@ -11,4 +11,8 @@ subprojects {
   repositories {
     mavenCentral()
   }
+  
+  test {
+  	useTestNG()
+  }
 }

@@ -20,7 +20,7 @@ public class TestMysqlConnectivity {
 	@Test(priority = 0)
 	public void testMysqlConnection() {
 
-		System.out.println("-------- Mysql JDBC Connection Testing --------");
+		System.out.println("---------- Mysql JDBC Connection Testing ----------");
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");

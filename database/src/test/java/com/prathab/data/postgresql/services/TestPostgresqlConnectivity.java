@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import org.testng.annotations.Test;
 
+@Test(enabled = false)
 public class TestPostgresqlConnectivity {
 
   @Test
