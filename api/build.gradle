@@ -16,6 +16,7 @@ ext {
   testng = "6.11"
   okhttp = "3.9.0"
   cargoPlugin = "1.4.5"
+  servletApi = "4.0.0"
 }
 
 buildscript {
@@ -50,7 +51,7 @@ cargo {
 dependencies {
 
   compile project(":database")
-  providedCompile "javax.servlet:javax.servlet-api:3.1.0"
+  providedCompile "javax.servlet:javax.servlet-api:${servletApi}"
   
   //Jersey
   compile "org.glassfish.jersey.core:jersey-common:${jersey}"
@@ -77,8 +78,6 @@ dependencies {
 
   cargo "org.codehaus.cargo:cargo-core-uberjar:${cargoPlugin}",
           "org.codehaus.cargo:cargo-ant:${cargoPlugin}"
-           
-  compile group: 'mysql', name: 'mysql-connector-java', version: "6.0.6"
            
   //Unit tests
   testCompile group: 'org.testng', name: 'testng', version: "${testng}"
