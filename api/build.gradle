@@ -2,7 +2,7 @@ group 'com.prathab.rest.api'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'war'
-apply plugin: 'com.bmuschko.tomcat'
+apply plugin: 'com.bmuschko.cargo'
 
 ext {
   jersey = "2.26"
@@ -13,9 +13,9 @@ ext {
   commonsValidator = "1.6"
   swagger = "1.5.16"
   javaxMail = "1.5.0-b01"
-  tomcatPlugin = "8.5.16"
   testng = "6.11"
   okhttp = "3.9.0"
+  cargoPlugin = "1.4.5"
 }
 
 buildscript {
@@ -24,14 +24,27 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.bmuschko:gradle-tomcat-plugin:2.4.2'
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.2.3'
     }
 }
 
-tomcat {
-	contextPath = '/'
-    httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
-    ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
+cargo {
+    containerId = 'tomcat8x'
+    port = 8080
+
+    deployable {
+        context = '/'
+    }
+    
+    local {
+        homeDir = file('/usr/local/opt/tomcat/libexec')
+        outputFile = file('build/tomcat.log')
+        timeout = 60000
+
+        containerProperties {
+            property 'cargo.tomcat.ajp.port', 8099
+        }
+    }
 }
 
 dependencies {
@@ -62,9 +75,8 @@ dependencies {
   //Javax Mail
   compile group: 'javax.mail', name: 'mail', version: "${javaxMail}"
 
-  //Gradle Tomcat plugin
-  tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatPlugin}",
-           "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatPlugin}"
+  cargo "org.codehaus.cargo:cargo-core-uberjar:${cargoPlugin}",
+          "org.codehaus.cargo:cargo-ant:${cargoPlugin}"
            
   compile group: 'mysql', name: 'mysql-connector-java', version: "6.0.6"
            
