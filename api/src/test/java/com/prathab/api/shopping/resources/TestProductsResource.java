@@ -38,6 +38,5 @@ public class TestProductsResource {
 		Response response = mOkHttpClient.newCall(request).execute();
 
 		Assert.assertEquals(response.code(), 200);
-		//Assert.assertTrue(response.header("Token") != null);
 	}
 }
