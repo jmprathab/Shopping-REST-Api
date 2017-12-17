@@ -1,4 +1,4 @@
-package com.prathab.data.mongodb;
+package com.prathab.data.mongodb.services;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;

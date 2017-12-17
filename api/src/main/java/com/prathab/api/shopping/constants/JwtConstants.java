@@ -5,7 +5,7 @@ public class JwtConstants {
   /**
    * JWT Constants
    */
-  //TODO Change JWT_SECRET value
+  // TODO Change JWT_SECRET value
   public static final String JWT_SECRET = "secret";
   public static final String JWT_ISSUER = "shopping.com";
 

@@ -3,7 +3,7 @@ package com.prathab.data.mongodb.services;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.prathab.data.datamodels.Products;
-import com.prathab.data.mongodb.MongoClientService;
+
 import java.util.ArrayList;
 import org.bson.Document;
 import org.bson.types.ObjectId;

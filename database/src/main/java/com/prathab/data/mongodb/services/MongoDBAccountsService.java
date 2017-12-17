@@ -10,7 +10,7 @@ import com.prathab.data.base.result.ReadResult;
 import com.prathab.data.base.result.UpdateResult;
 import com.prathab.data.constants.DBConstants;
 import com.prathab.data.datamodels.Users;
-import com.prathab.data.mongodb.MongoClientService;
+
 import org.bson.Document;
 
 import static com.mongodb.client.model.Filters.eq;
