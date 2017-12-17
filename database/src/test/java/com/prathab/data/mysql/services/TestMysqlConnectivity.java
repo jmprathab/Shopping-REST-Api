@@ -15,6 +15,7 @@ import com.prathab.data.base.result.ReadResult;
 import com.prathab.data.datamodels.Users;
 import com.prathab.data.mysql.services.MysqlAccountsService;
 
+@Test
 public class TestMysqlConnectivity {
 
 	@Test(priority = 0)
