@@ -8,19 +8,18 @@ import com.prathab.data.base.dbmodel.DbObject;
  * @author jmprathab
  *
  */
-public class ReadBulkResult {
-	private List<DbObject> dbObject;
+public class ReadBulkResult<T extends DbObject> {
+	private List<T> dbObject;
 
-	public List<DbObject> getDbObject() {
+	public List<T> getDbObject() {
 		return dbObject;
 	}
 
-	public void setDbObject(List<DbObject> dbObject) {
+	public void setDbObject(List<T> dbObject) {
 		this.dbObject = dbObject;
 	}
 
-	public ReadBulkResult(List<DbObject> dbObject) {
-		super();
+	public ReadBulkResult(List<T> dbObject) {
 		this.dbObject = dbObject;
 	}	
 }
