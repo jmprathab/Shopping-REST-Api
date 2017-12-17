@@ -4,17 +4,17 @@ version '1.0-SNAPSHOT'
 ext {
   mongodbJavaDriver = "3.5.0"
   testng = "6.11"
-  mysqlJavaDriver = "6.0.6"
+  mariadbJavaDriver = "2.2.0"
 }
 
 dependencies {
-  //JDBC drivers
+  // JDBC drivers
   compile "org.mongodb:mongo-java-driver:${mongodbJavaDriver}"
-  compile group: 'mysql', name: 'mysql-connector-java', version: "${mysqlJavaDriver}"
+  compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: "${mariadbJavaDriver}"
   
-  //Unit test
+  // Unit test
   testCompile group: 'org.testng', name: 'testng', version: "${testng}"
   
-  /*Downloaded postgre driver manually*/
+  /* Downloaded postgre driver manually */
   testCompile fileTree(dir: 'testLibs', include: ['*.jar'])
 }

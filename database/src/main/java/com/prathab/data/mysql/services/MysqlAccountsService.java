@@ -40,13 +40,17 @@ public class MysqlAccountsService implements DbService {
 			assert false;
 		}
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(MysqlConfiguration.DRIVER_CLASS);
+		} catch (Exception e) {
+			System.out.println("Mysql Driver not found");
+		}
 
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopping", "shopping_user",
-					"shopping_user");
+		try {
+			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
+					MysqlConfiguration.PASSWORD);
 
 			Statement statement = connection.createStatement();
-			String query = "select * from users where " + nonNullKey + "=" + nonNullValue;
+			String query = "select * from users where " + nonNullKey + "='" + nonNullValue + "'";
 			System.out.println("Mysql : Read : " + query);
 
 			ResultSet rs = statement.executeQuery(query);
@@ -85,10 +89,14 @@ public class MysqlAccountsService implements DbService {
 		}
 
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(MysqlConfiguration.DRIVER_CLASS);
+		} catch (Exception e) {
+			System.out.println("Mysql Driver not found");
+		}
 
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopping", "shopping_user",
-					"shopping_user");
+		try {
+			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
+					MysqlConfiguration.PASSWORD);
 
 			Statement statement = connection.createStatement();
 			String query = "delete from users where " + nonNullKey + "=" + nonNullValue;
@@ -118,10 +126,10 @@ public class MysqlAccountsService implements DbService {
 		InsertResult insertResult = new InsertResult();
 
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(MysqlConfiguration.DRIVER_CLASS);
 
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopping", "shopping_user",
-					"shopping_user");
+			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
+					MysqlConfiguration.PASSWORD);
 
 			String query = "insert into users (name, mobile, password) values (?,?,?)";
 			System.out.println("Mysql : Insert : " + query);
