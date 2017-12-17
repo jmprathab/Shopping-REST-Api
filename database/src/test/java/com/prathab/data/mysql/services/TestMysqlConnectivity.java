@@ -13,7 +13,6 @@ import com.prathab.data.base.result.DeleteResult;
 import com.prathab.data.base.result.InsertResult;
 import com.prathab.data.base.result.ReadResult;
 import com.prathab.data.datamodels.Users;
-import com.prathab.data.mysql.services.MysqlAccountsService;
 
 @Test
 public class TestMysqlConnectivity {
@@ -24,7 +23,7 @@ public class TestMysqlConnectivity {
 		System.out.println("---------- Mysql JDBC Connection Testing ----------");
 
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(MysqlConfiguration.DRIVER_CLASS);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			System.out.println("Mysql java driver cannot be found");
@@ -32,8 +31,8 @@ public class TestMysqlConnectivity {
 		Connection connection = null;
 
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopping", "shopping_user",
-					"shopping_user");
+			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
+					MysqlConfiguration.PASSWORD);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
