@@ -12,6 +12,8 @@ import com.prathab.data.base.exception.DbException;
 import com.prathab.data.base.result.DeleteResult;
 import com.prathab.data.base.result.InsertResult;
 import com.prathab.data.base.result.ReadResult;
+import com.prathab.data.base.result.UpdateResult;
+import com.prathab.data.datamodels.Carts;
 import com.prathab.data.datamodels.Users;
 
 @Test
@@ -103,6 +105,65 @@ public class TestMysqlConnectivity {
 			Assert.assertTrue(result.isSuccessful());
 		} catch (DbException e) {
 			Assert.fail("Mysql Delete test failed", e);
+		}
+	}
+	
+	@Test(priority = 5)
+	public void testMysqlCartsInsert() {
+		System.out.println("Testing Mysql Carts Insert operation");
+
+		MysqlCartsService service = new MysqlCartsService();
+		Carts carts = new Carts();
+		carts.setProductsId(2);
+		carts.setUsersId(1);
+		carts.setQuantity(1);
+		
+		try {
+			InsertResult result = service.insert(carts);
+			Assert.assertEquals(result.getNumOfRows(), 1);
+			Assert.assertTrue(result.isSuccessful());
+		} catch (DbException e) {
+			Assert.fail("Mysql Carts Insert test failed", e);
+		}
+	}
+	
+	@Test(priority = 6)
+	public void testMysqlCartsUpdate() {
+		System.out.println("Testing Mysql Carts Update operation");
+
+		MysqlCartsService service = new MysqlCartsService();
+		Carts carts = new Carts();
+		carts.setProductsId(2);
+		carts.setUsersId(1);
+		carts.setQuantity(2);
+		DbObjectSpec spec = new DbObjectSpec(carts);
+		try {
+			UpdateResult result = service.update(spec);
+			
+			Assert.assertEquals(result.getNumOfRows(), 1);
+			Assert.assertTrue(result.isSuccessful());
+		} catch (DbException e) {
+			Assert.fail("Mysql Carts Update test failed", e);
+		}
+	}
+	
+	@Test(priority = 7)
+	public void testMysqlCartsDelete() {
+		System.out.println("Testing Mysql Carts Delete operation");
+
+		MysqlCartsService service = new MysqlCartsService();
+		Carts carts = new Carts();
+		carts.setProductsId(2);
+		carts.setUsersId(1);
+		
+		DbObjectSpec spec = new DbObjectSpec(carts);
+		try {
+			DeleteResult result = service.delete(spec);
+			
+			Assert.assertEquals(result.getNumOfRows(), 1);
+			Assert.assertTrue(result.isSuccessful());
+		} catch (DbException e) {
+			Assert.fail("Mysql Carts Delete test failed", e);
 		}
 	}
 }

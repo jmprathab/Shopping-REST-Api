@@ -17,4 +17,5 @@ dependencies {
   
   /* Downloaded postgre driver manually */
   testCompile fileTree(dir: 'testLibs', include: ['*.jar'])
+  testCompile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: "${mariadbJavaDriver}"
 }
