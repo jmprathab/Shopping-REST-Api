@@ -65,7 +65,6 @@ public class MysqlCartsService implements DbCartsService {
 	public DeleteResult delete(DbObjectSpec spec) throws DbException {
 		Carts inputSpec = (Carts) spec.getObject();
 		int usersId = inputSpec.getUsersId();
-		int productsId = inputSpec.getProductsId();
 
 		Connection connection = null;
 		DeleteResult deleteResult = new DeleteResult();
@@ -79,11 +78,14 @@ public class MysqlCartsService implements DbCartsService {
 			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
 					MysqlConfiguration.PASSWORD);
 
-			Statement statement = connection.createStatement();
-			String query = "delete from carts where  users_id =" + usersId + " and products_id =" + productsId + ";";
+			// Statement statement = connection.createStatement();
+			String query = "delete from carts where  users_id=?;";
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, usersId);
+
 			System.out.println("Mysql : Delete : " + query);
 
-			int numRows = statement.executeUpdate(query);
+			int numRows = statement.executeUpdate();
 
 			deleteResult.setNumOfRows(numRows);
 			deleteResult.setSuccessful(true);
@@ -189,19 +191,19 @@ public class MysqlCartsService implements DbCartsService {
 	@Override
 	public UpdateResult checkout(DbObjectSpec spec) throws DbException {
 		Carts carts = (Carts) spec.getObject();
-		
+
 		int usersId = carts.getUsersId();
 
 		Connection connection = null;
 
 		UpdateResult updateResult = new UpdateResult();
-		
+
 		try {
 			Class.forName(MysqlConfiguration.DRIVER_CLASS);
 
 			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
 					MysqlConfiguration.PASSWORD);
-			
+
 			connection.setAutoCommit(false);
 
 			String query = "update products p,carts c set p.quantity=p.quantity-c.quantity where p.products_id in (select products_id from carts where c.users_id=?);";
@@ -212,15 +214,15 @@ public class MysqlCartsService implements DbCartsService {
 			statement.setInt(1, usersId);
 
 			int numRows = statement.executeUpdate();
-			
+
 			String deleteCartsQuery = "delete from carts where users_id = ?;";
 			PreparedStatement deleteCartsStatement = connection.prepareStatement(deleteCartsQuery);
 			deleteCartsStatement.setInt(1, usersId);
 			deleteCartsStatement.executeUpdate();
-			
+
 			connection.commit();
 			connection.close();
-			
+
 			updateResult.setNumOfRows(numRows);
 			updateResult.setSuccessful(true);
 

@@ -14,6 +14,7 @@ import com.prathab.data.base.result.InsertResult;
 import com.prathab.data.base.result.ReadResult;
 import com.prathab.data.base.result.UpdateResult;
 import com.prathab.data.datamodels.Carts;
+import com.prathab.data.datamodels.Products;
 import com.prathab.data.datamodels.Users;
 
 @Test
@@ -47,7 +48,7 @@ public class TestMysqlConnectivity {
 	}
 
 	@Test(priority = 1)
-	public void testMysqlInsert() {
+	public void testMysqlUsersInsert() {
 		System.out.println("Testing Mysql Insert operation");
 
 		MysqlAccountsService service = new MysqlAccountsService();
@@ -65,7 +66,53 @@ public class TestMysqlConnectivity {
 	}
 
 	@Test(priority = 2)
-	public void testMysqlRead() {
+	public void testMysqlProudctsInsert() {
+		System.out.println("Testing Mysql Products Insert operation");
+		System.out.println("Mysql Products Insert is not implemented, so skipping the test");
+
+		int temp = 0; // Just skipping the test
+		if (temp == 0) {
+			return;
+		}
+
+		MysqlProductsService service = new MysqlProductsService();
+		Products products = new Products();
+		products.setId("1");
+		products.setName("Shopping_Test_Product");
+		products.setPrice("1000");
+		products.setDescription("This is a test row inserted by testng test case to test Mysql Products operation");
+		products.setRating(5);
+		// TODO add quantity here
+		try {
+			InsertResult result = service.insert(products);
+			Assert.assertEquals(result.getNumOfRows(), 1);
+			Assert.assertTrue(result.isSuccessful());
+		} catch (DbException e) {
+			Assert.fail("Mysql Products Insert test failed", e);
+		}
+	}
+
+	@Test(priority = 3)
+	public void testMysqlCartsInsert() {
+		System.out.println("Testing Mysql Carts Insert operation");
+
+		MysqlCartsService service = new MysqlCartsService();
+		Carts carts = new Carts();
+		carts.setProductsId(2);
+		carts.setUsersId(1);
+		carts.setQuantity(1);
+
+		try {
+			InsertResult result = service.insert(carts);
+			Assert.assertEquals(result.getNumOfRows(), 1);
+			Assert.assertTrue(result.isSuccessful());
+		} catch (DbException e) {
+			Assert.fail("Mysql Carts Insert test failed", e);
+		}
+	}
+
+	@Test(priority = 4)
+	public void testMysqlUsersRead() {
 		System.out.println("Testing Mysql Read operation");
 
 		MysqlAccountsService service = new MysqlAccountsService();
@@ -82,18 +129,56 @@ public class TestMysqlConnectivity {
 			Assert.assertTrue(fetchedUsers.getPassword().equals("password"));
 			// Assert.assertTrue(result.isSuccessful());
 		} catch (DbException e) {
-			Assert.fail("Mysql Insert Read failed", e);
+			Assert.fail("Mysql Users Read failed", e);
 		}
 	}
 
-	@Test(priority = 3)
-	public void testMysqlUpdate() {
+	@Test(priority = 5)
+	public void testMysqlUsersUpdate() {
 		System.out.println("Testing Mysql Update operation");
 	}
 
-	@Test(priority = 4)
-	public void testMysqlDelete() {
-		System.out.println("Testing Mysql Delete operation");
+	@Test(priority = 6)
+	public void testMysqlCartsUpdate() {
+		System.out.println("Testing Mysql Carts Update operation");
+
+		MysqlCartsService service = new MysqlCartsService();
+		Carts carts = new Carts();
+		carts.setProductsId(2);
+		carts.setUsersId(1);
+		carts.setQuantity(2);
+		DbObjectSpec spec = new DbObjectSpec(carts);
+		try {
+			UpdateResult result = service.update(spec);
+
+			Assert.assertEquals(result.getNumOfRows(), 1);
+			Assert.assertTrue(result.isSuccessful());
+		} catch (DbException e) {
+			Assert.fail("Mysql Carts Update test failed", e);
+		}
+	}
+
+	@Test(priority = 7)
+	public void testMysqlCartsCheckout() {
+		System.out.println("Testing Mysql Carts Checkout operation");
+
+		MysqlCartsService service = new MysqlCartsService();
+		Carts carts = new Carts();
+		carts.setUsersId(1);
+		DbObjectSpec spec = new DbObjectSpec(carts);
+		try {
+			UpdateResult result = service.checkout(spec);
+
+			Assert.assertEquals(result.getNumOfRows(), 1);
+			Assert.assertTrue(result.isSuccessful());
+		} catch (DbException e) {
+			Assert.fail("Mysql Carts Checkout test failed", e);
+		}
+	}
+
+	@Test(priority = 8)
+	public void testMysqUsersDelete() {
+		System.out.println("Testing Mysql Users Delete operation");
 
 		MysqlAccountsService service = new MysqlAccountsService();
 		Users users = new Users();
@@ -107,47 +192,26 @@ public class TestMysqlConnectivity {
 			Assert.fail("Mysql Delete test failed", e);
 		}
 	}
-	
-	@Test(priority = 5)
-	public void testMysqlCartsInsert() {
-		System.out.println("Testing Mysql Carts Insert operation");
 
-		MysqlCartsService service = new MysqlCartsService();
-		Carts carts = new Carts();
-		carts.setProductsId(2);
-		carts.setUsersId(1);
-		carts.setQuantity(1);
-		
+	@Test(priority = 9, enabled = false)
+	public void testMysqlProductsDelete() {
+		System.out.println("Testing Mysql Products Delete operation");
+
+		MysqlProductsService service = new MysqlProductsService();
+		Products products = new Products();
+		products.setId("2");
+
+		DbObjectSpec spec = new DbObjectSpec(products);
 		try {
-			InsertResult result = service.insert(carts);
+			DeleteResult result = service.delete(spec);
 			Assert.assertEquals(result.getNumOfRows(), 1);
 			Assert.assertTrue(result.isSuccessful());
 		} catch (DbException e) {
-			Assert.fail("Mysql Carts Insert test failed", e);
+			Assert.fail("Mysql Products Delete test failed", e);
 		}
 	}
-	
-	@Test(priority = 6)
-	public void testMysqlCartsUpdate() {
-		System.out.println("Testing Mysql Carts Update operation");
 
-		MysqlCartsService service = new MysqlCartsService();
-		Carts carts = new Carts();
-		carts.setProductsId(2);
-		carts.setUsersId(1);
-		carts.setQuantity(2);
-		DbObjectSpec spec = new DbObjectSpec(carts);
-		try {
-			UpdateResult result = service.update(spec);
-			
-			Assert.assertEquals(result.getNumOfRows(), 1);
-			Assert.assertTrue(result.isSuccessful());
-		} catch (DbException e) {
-			Assert.fail("Mysql Carts Update test failed", e);
-		}
-	}
-	
-	@Test(priority = 7)
+	@Test(priority = 10)
 	public void testMysqlCartsDelete() {
 		System.out.println("Testing Mysql Carts Delete operation");
 
@@ -155,11 +219,11 @@ public class TestMysqlConnectivity {
 		Carts carts = new Carts();
 		carts.setProductsId(2);
 		carts.setUsersId(1);
-		
+
 		DbObjectSpec spec = new DbObjectSpec(carts);
 		try {
 			DeleteResult result = service.delete(spec);
-			
+
 			Assert.assertEquals(result.getNumOfRows(), 1);
 			Assert.assertTrue(result.isSuccessful());
 		} catch (DbException e) {
