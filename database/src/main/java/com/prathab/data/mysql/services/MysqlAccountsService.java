@@ -1,9 +1,9 @@
 package com.prathab.data.mysql.services;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.prathab.data.base.DbObjectSpec;
@@ -27,6 +27,10 @@ public class MysqlAccountsService implements DbService {
 		String email = inputSpec.getEmail();
 
 		Connection connection = null;
+		Statement statement = null;
+		ResultSet rs = null;
+
+		ReadResult readResult = new ReadResult();
 		Users fetchedUsers = null;
 
 		String nonNullValue = null;
@@ -41,40 +45,62 @@ public class MysqlAccountsService implements DbService {
 			assert false;
 		}
 		try {
-			Class.forName(MysqlConfiguration.DRIVER_CLASS);
+			connection = DatabaseUtils.getConnection();
 		} catch (Exception e) {
-			System.out.println("Mysql Driver not found");
+			System.out.println("Cannot fetch connection from Pool : " + e.getMessage());
+			return readResult;
 		}
 
 		try {
-			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
-					MysqlConfiguration.PASSWORD);
+			String query = "SELECT * FROM USERS WHERE " + nonNullKey + "='" + nonNullValue + "'";
+			System.out.println("Mysql : Accounts : Read : " + query);
 
-			Statement statement = connection.createStatement();
-			String query = "select * from users where " + nonNullKey + "='" + nonNullValue + "'";
-			System.out.println("Mysql : Read : " + query);
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
 
-			ResultSet rs = statement.executeQuery(query);
 			while (rs.next()) {
 				fetchedUsers = new Users();
 				fetchedUsers.setName(rs.getString(DBConstants.DB_COLLECTION_USERS_NAME));
 				fetchedUsers.setMobile(rs.getString(DBConstants.DB_COLLECTION_USERS_MOBILE));
 				fetchedUsers.setPassword(rs.getString(DBConstants.DB_COLLECTION_USERS_PASSWORD));
 			}
+			readResult.setSuccessful(true);
 		} catch (Exception e) {
-			System.out.println(e);
-			return null;
+			System.out.println("Cannot read user : " + e.getMessage());
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (statement != null)
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
-		return new ReadResult(fetchedUsers);
+
+		readResult.setDbObject(fetchedUsers);
+		return readResult;
 	}
 
 	@Override
 	public DeleteResult delete(DbObjectSpec spec) throws DbException {
-
 		Users inputSpec = (Users) spec.getObject();
 		String mobile = inputSpec.getMobile();
 		String email = inputSpec.getEmail();
+
 		Connection connection = null;
+		Statement statement = null;
+
 		DeleteResult deleteResult = new DeleteResult();
 
 		String nonNullValue = null;
@@ -90,19 +116,17 @@ public class MysqlAccountsService implements DbService {
 		}
 
 		try {
-			Class.forName(MysqlConfiguration.DRIVER_CLASS);
+			connection = DatabaseUtils.getConnection();
 		} catch (Exception e) {
-			System.out.println("Mysql Driver not found");
+			System.out.println("Cannot fetch connection from Pool : " + e.getMessage());
+			return deleteResult;
 		}
 
 		try {
-			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
-					MysqlConfiguration.PASSWORD);
+			String query = "DELETE FROM USERS WHERE " + nonNullKey + "=" + nonNullValue;
+			System.out.println("Mysql : Accounts : Delete : " + query);
 
-			Statement statement = connection.createStatement();
-			String query = "delete from users where " + nonNullKey + "=" + nonNullValue;
-			System.out.println("Mysql : Delete : " + query);
-
+			statement = connection.createStatement();
 			int numRows = statement.executeUpdate(query);
 
 			deleteResult.setNumOfRows(numRows);
@@ -111,8 +135,20 @@ public class MysqlAccountsService implements DbService {
 		} catch (Exception e) {
 			System.out.println("Cannot delete user : " + e.getMessage());
 			deleteResult.setSuccessful(false);
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (statement != null)
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
-
 		return deleteResult;
 	}
 
@@ -122,17 +158,24 @@ public class MysqlAccountsService implements DbService {
 		String name = inputUsers.getName();
 		String mobile = inputUsers.getMobile();
 		String password = inputUsers.getPassword();
+
 		Connection connection = null;
+		PreparedStatement statement = null;
 
 		InsertResult insertResult = new InsertResult();
 
 		try {
 			connection = DatabaseUtils.getConnection();
+		} catch (Exception e) {
+			System.out.println("Cannot fetch connection from Pool : " + e.getMessage());
+			return insertResult;
+		}
 
-			String query = "insert into users (name, mobile, password) values (?,?,?)";
-			System.out.println("Mysql : Insert : " + query);
+		try {
+			String query = "INSERT INTO USERS (name, mobile, password) values (?,?,?)";
+			System.out.println("Mysql : Accounts : Insert : " + query);
 
-			PreparedStatement statement = connection.prepareStatement(query);
+			statement = connection.prepareStatement(query);
 			statement.setString(1, name);
 			statement.setString(2, mobile);
 			statement.setString(3, password);
@@ -145,14 +188,28 @@ public class MysqlAccountsService implements DbService {
 		} catch (Exception e) {
 			System.out.println("Cannot insert user : " + e.getMessage());
 			insertResult.setSuccessful(false);
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (statement != null)
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 		return insertResult;
 	}
 
 	@Override
 	public UpdateResult update(DbObjectSpec spec) throws DbException {
+		UpdateResult result = new UpdateResult();
 		System.out.println("Mysql Update operation is not implemented");
-		return null;
+		return result;
 	}
 
 }

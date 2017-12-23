@@ -18,7 +18,7 @@ import com.prathab.data.base.result.UpdateResult;
 import com.prathab.data.constants.DBConstants;
 import com.prathab.data.datamodels.Users;
 
-public class MongoDBAccountsService implements DbService {
+public class MongoDbAccountsService implements DbService {
 
 	private static MongoCollection<Document> mUsersCollection = MongoClientService.getUsersCollection();
 

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.prathab.data.base.DbConfiguration;
 import com.prathab.data.base.DbObjectSpec;
 import com.prathab.data.base.exception.DbException;
 import com.prathab.data.base.result.DeleteResult;
@@ -20,13 +21,15 @@ import com.prathab.data.datamodels.Users;
 @Test
 public class TestMysqlConnectivity {
 
+	DbConfiguration mDbConfiguration = new MysqlDbConfiguration();
+
 	@Test(priority = 0)
 	public void testMysqlConnection() {
 
 		System.out.println("---------- Mysql JDBC Connection Testing ----------");
 
 		try {
-			Class.forName(MysqlConfiguration.DRIVER_CLASS);
+			Class.forName(mDbConfiguration.getDriverClass());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			System.out.println("Mysql java driver cannot be found");
@@ -34,8 +37,8 @@ public class TestMysqlConnectivity {
 		Connection connection = null;
 
 		try {
-			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
-					MysqlConfiguration.PASSWORD);
+			connection = DriverManager.getConnection(mDbConfiguration.getConnectionString(),
+					mDbConfiguration.getDbUserName(), mDbConfiguration.getDbPassword());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

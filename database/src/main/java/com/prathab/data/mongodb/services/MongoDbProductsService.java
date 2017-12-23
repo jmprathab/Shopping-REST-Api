@@ -17,7 +17,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.prathab.data.datamodels.Products;
 
-public class MongoDBProductsService {
+public class MongoDbProductsService {
 	public static ArrayList<Products> getProducts(int page, int limit) {
 		if (page < 0 || page > 1000) {
 			page = 0;

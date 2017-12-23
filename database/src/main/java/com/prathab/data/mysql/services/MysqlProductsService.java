@@ -1,8 +1,9 @@
 package com.prathab.data.mysql.services;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.prathab.data.base.DbObjectSpec;
@@ -22,19 +23,16 @@ public class MysqlProductsService implements DbProductsService {
 
 	@Override
 	public ReadResult read(DbObjectSpec spec) throws DbException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public DeleteResult delete(DbObjectSpec spec) throws DbException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public InsertResult insert(DbObject object) throws DbException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -56,14 +54,26 @@ public class MysqlProductsService implements DbProductsService {
 		ArrayList<Products> productsList = new ArrayList<>();
 
 		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+
+		ReadBulkResult<Products> readBulkResult = new ReadBulkResult<Products>();
 
 		try {
 			connection = DatabaseUtils.getConnection();
-			Statement statement = connection.createStatement();
-			String query = "select * from products limit " + limit + " offset " + page + ";";
-			System.out.println("Mysql : BulkRead : " + query);
+		} catch (Exception e) {
+			System.out.println("Cannot fetch connection from Pool : " + e.getMessage());
+			return readBulkResult;
+		}
+		try {
+			String query = "SELECT * FROM products LIMIT ? OFFSET ?;";
+			System.out.println("Mysql : Products : BulkRead : " + query);
 
-			ResultSet rs = statement.executeQuery(query);
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, limit);
+			statement.setInt(2, page);
+
+			rs = statement.executeQuery();
 
 			while (rs.next()) {
 				Products fetchedProducts = new Products();
@@ -74,13 +84,31 @@ public class MysqlProductsService implements DbProductsService {
 				fetchedProducts.setRating(rs.getInt(DBConstants.DB_COLLECTION_PRODUCTS_RATING));
 				productsList.add(fetchedProducts);
 			}
+			readBulkResult.setSuccessful(true);
 		} catch (Exception e) {
-			System.out.println(e);
-			assert false;
-			return null;
+			System.out.println("Cannot bulk read products : " + e.getMessage());
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (statement != null)
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 
-		ReadBulkResult<Products> readBulkResult = new ReadBulkResult<Products>(productsList);
+		readBulkResult.setDbObject(productsList);
 		return readBulkResult;
 	}
 

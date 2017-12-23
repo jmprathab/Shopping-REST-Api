@@ -9,6 +9,10 @@ public class ReadResult extends DbResult {
 		this.dbObject = dbObject;
 	}
 
+	public ReadResult() {
+		
+	}
+
 	public DbObject getDbObject() {
 		return dbObject;
 	}

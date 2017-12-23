@@ -1,10 +1,9 @@
 package com.prathab.data.mysql.services;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
 
 import com.prathab.data.base.DbCartsService;
 import com.prathab.data.base.DbObjectSpec;
@@ -14,6 +13,7 @@ import com.prathab.data.base.result.DeleteResult;
 import com.prathab.data.base.result.InsertResult;
 import com.prathab.data.base.result.ReadResult;
 import com.prathab.data.base.result.UpdateResult;
+import com.prathab.data.base.utils.DatabaseUtils;
 import com.prathab.data.constants.DBConstants;
 import com.prathab.data.datamodels.Carts;
 
@@ -26,34 +26,57 @@ public class MysqlCartsService implements DbCartsService {
 		int productsId = inputSpec.getProductsId();
 
 		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+
+		ReadResult readResult = new ReadResult();
 
 		try {
-			Class.forName(MysqlConfiguration.DRIVER_CLASS);
+			connection = DatabaseUtils.getConnection();
 		} catch (Exception e) {
-			System.out.println("Mysql Driver not found");
+			System.out.println("Cannot fetch connection from Pool : " + e.getMessage());
 		}
 
 		Carts fetchedCarts = null;
 		try {
-			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
-					MysqlConfiguration.PASSWORD);
+			String query = "SELECT * FROM CARTS WHERE users_id =? AND products_id =?;";
+			System.out.println("Mysql : Carts : Read : " + query);
 
-			Statement statement = connection.createStatement();
-			String query = "select * from carts where  users_id =" + usersId + " and products_id =" + productsId + ";";
-			System.out.println("Mysql : Read : " + query);
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, usersId);
+			statement.setInt(2, productsId);
 
-			ResultSet rs = statement.executeQuery(query);
+			rs = statement.executeQuery();
 			while (rs.next()) {
 				fetchedCarts = new Carts();
 				fetchedCarts.setProductsId(rs.getInt(DBConstants.DB_COLLECTION_CARTS_PRODUCT_ID));
 				fetchedCarts.setUsersId(rs.getInt(DBConstants.DB_COLLECTION_CARTS_USERS_ID));
 				fetchedCarts.setQuantity(rs.getInt(DBConstants.DB_COLLECTION_CARTS_QUANTITY));
 			}
+			readResult.setSuccessful(true);
 		} catch (Exception e) {
-			System.out.println(e);
-			ReadResult result = new ReadResult(null);
-			result.setSuccessful(false);
-			return result;
+			System.out.println("Cannot read from cart : " + e.getMessage());
+			readResult.setSuccessful(false);
+			return readResult;
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (statement != null)
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 
 		ReadResult result = new ReadResult(fetchedCarts);
@@ -67,23 +90,23 @@ public class MysqlCartsService implements DbCartsService {
 		int usersId = inputSpec.getUsersId();
 
 		Connection connection = null;
+		PreparedStatement statement = null;
+
 		DeleteResult deleteResult = new DeleteResult();
+
 		try {
-			Class.forName(MysqlConfiguration.DRIVER_CLASS);
+			connection = DatabaseUtils.getConnection();
 		} catch (Exception e) {
-			System.out.println("Mysql Driver not found");
+			System.out.println("Cannot fetch connection from Pool : " + e.getMessage());
+			return deleteResult;
 		}
 
 		try {
-			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
-					MysqlConfiguration.PASSWORD);
+			String query = "DELETE FROM CARTS WHERE  users_id=?;";
+			System.out.println("Mysql : Carts : Delete : " + query);
 
-			// Statement statement = connection.createStatement();
-			String query = "delete from carts where  users_id=?;";
-			PreparedStatement statement = connection.prepareStatement(query);
+			statement = connection.prepareStatement(query);
 			statement.setInt(1, usersId);
-
-			System.out.println("Mysql : Delete : " + query);
 
 			int numRows = statement.executeUpdate();
 
@@ -91,10 +114,22 @@ public class MysqlCartsService implements DbCartsService {
 			deleteResult.setSuccessful(true);
 
 		} catch (Exception e) {
-			System.out.println("Cannot delete Carts : " + e.getMessage());
+			System.out.println("Cannot delete from carts : " + e.getMessage());
 			deleteResult.setSuccessful(false);
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (statement != null)
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
-
 		return deleteResult;
 	}
 
@@ -103,23 +138,26 @@ public class MysqlCartsService implements DbCartsService {
 		Carts carts = (Carts) object;
 
 		int productsId = carts.getProductsId();
-		int usersId = 1; // TODO clean this
+		int usersId = carts.getUsersId();
 		int quantity = carts.getQuantity();
 
 		Connection connection = null;
+		PreparedStatement statement = null;
 
 		InsertResult insertResult = new InsertResult();
 
 		try {
-			Class.forName(MysqlConfiguration.DRIVER_CLASS);
+			connection = DatabaseUtils.getConnection();
+		} catch (Exception e) {
+			System.out.println("Cannot fetch connection from Pool : " + e.getMessage());
+			return insertResult;
+		}
 
-			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
-					MysqlConfiguration.PASSWORD);
-
+		try {
 			String query = "insert into carts (users_id, products_id, quantity) values (?,?,?)";
 			System.out.println("Mysql : Insert : " + query);
 
-			PreparedStatement statement = connection.prepareStatement(query);
+			statement = connection.prepareStatement(query);
 			statement.setInt(1, usersId);
 			statement.setInt(2, productsId);
 			statement.setInt(3, quantity);
@@ -128,10 +166,22 @@ public class MysqlCartsService implements DbCartsService {
 
 			insertResult.setNumOfRows(numRows);
 			insertResult.setSuccessful(true);
-
 		} catch (Exception e) {
-			System.out.println("Cannot insert user : " + e.getMessage());
+			System.out.println("Cannot insert into Carts : " + e.getMessage());
 			insertResult.setSuccessful(false);
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (statement != null)
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 		return insertResult;
 	}
@@ -145,6 +195,7 @@ public class MysqlCartsService implements DbCartsService {
 		int quantity = carts.getQuantity();
 
 		Connection connection = null;
+		PreparedStatement statement = null;
 
 		UpdateResult updateResult = new UpdateResult();
 
@@ -162,16 +213,17 @@ public class MysqlCartsService implements DbCartsService {
 		}
 
 		try {
-			Class.forName(MysqlConfiguration.DRIVER_CLASS);
+			connection = DatabaseUtils.getConnection();
+		} catch (Exception e) {
+			System.out.println("Cannot fetch connection from Pool : " + e.getMessage());
+			return updateResult;
+		}
 
-			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
-					MysqlConfiguration.PASSWORD);
+		try {
+			String query = "UPDATE CARTS SET quantity = ? WHERE products_id=? AND users_id=?;";
+			System.out.println("Mysql : Carts : Update : " + query);
 
-			String query = "update carts set quantity=? where products_id=? and users_id=?;";
-
-			System.out.println("Mysql : Update : " + query);
-
-			PreparedStatement statement = connection.prepareStatement(query);
+			statement = connection.prepareStatement(query);
 			statement.setInt(1, quantity);
 			statement.setInt(2, productsId);
 			statement.setInt(3, usersId);
@@ -182,8 +234,21 @@ public class MysqlCartsService implements DbCartsService {
 			updateResult.setSuccessful(true);
 
 		} catch (Exception e) {
-			System.out.println("Cannot insert user : " + e.getMessage());
+			System.out.println("Cannot update Carts : " + e.getMessage());
 			updateResult.setSuccessful(false);
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (statement != null)
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 		return updateResult;
 	}
@@ -195,40 +260,67 @@ public class MysqlCartsService implements DbCartsService {
 		int usersId = carts.getUsersId();
 
 		Connection connection = null;
+		PreparedStatement statement = null;
 
 		UpdateResult updateResult = new UpdateResult();
 
 		try {
-			Class.forName(MysqlConfiguration.DRIVER_CLASS);
+			connection = DatabaseUtils.getConnection();
+		} catch (Exception e) {
+			System.out.println("Cannot fetch connection from Pool : " + e.getMessage());
+			return updateResult;
+		}
 
-			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
-					MysqlConfiguration.PASSWORD);
-
+		try {
 			connection.setAutoCommit(false);
 
-			String query = "update products p,carts c set p.quantity=p.quantity-c.quantity where p.products_id in (select products_id from carts where c.users_id=?);";
+			String query = "UPDATE products p,carts c SET p.quantity=p.quantity-c.quantity WHERE p.products_id IN (SELECT products_id FROM carts WHERE c.users_id=?);";
+			System.out.println("Mysql : Carts : Checkout : " + query);
 
-			System.out.println("Mysql : Checkout : " + query);
-
-			PreparedStatement statement = connection.prepareStatement(query);
+			statement = connection.prepareStatement(query);
 			statement.setInt(1, usersId);
 
 			int numRows = statement.executeUpdate();
+			assert (numRows > 0);
 
-			String deleteCartsQuery = "delete from carts where users_id = ?;";
-			PreparedStatement deleteCartsStatement = connection.prepareStatement(deleteCartsQuery);
-			deleteCartsStatement.setInt(1, usersId);
-			deleteCartsStatement.executeUpdate();
+			String deleteCartsQuery = "DELETE FROM CARTS WHERE users_id = ?;";
+			System.out.println("Mysql : Carts : Checkout : DeleteCarts : " + query);
+
+			PreparedStatement deleteStatement = connection.prepareStatement(deleteCartsQuery);
+			deleteStatement.setInt(1, usersId);
+
+			int numRowsDeleted = deleteStatement.executeUpdate();
+			assert (numRowsDeleted > 0);
 
 			connection.commit();
-			connection.close();
+			
+			if (deleteStatement != null) {
+				try {
+					deleteStatement.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 
-			updateResult.setNumOfRows(numRows);
+			updateResult.setNumOfRows(numRowsDeleted);
 			updateResult.setSuccessful(true);
 
 		} catch (Exception e) {
 			System.out.println("Carts checkout failed : " + e.getMessage());
 			updateResult.setSuccessful(false);
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (statement != null)
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 		return updateResult;
 	}
