@@ -5,12 +5,16 @@ ext {
   mongodbJavaDriver = "3.5.0"
   testng = "6.11"
   mariadbJavaDriver = "2.2.0"
+  dbcp2 = "2.1.1"
 }
 
 dependencies {
   // JDBC drivers
   compile "org.mongodb:mongo-java-driver:${mongodbJavaDriver}"
   compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: "${mariadbJavaDriver}"
+  
+  // JDBC Connection pooling
+  compile group: 'org.apache.commons', name: 'commons-dbcp2', version: "${dbcp2}"
   
   // Unit test
   testCompile group: 'org.testng', name: 'testng', version: "${testng}"

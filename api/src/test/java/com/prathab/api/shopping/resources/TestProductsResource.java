@@ -50,7 +50,7 @@ public class TestProductsResource {
 			public void run() {
 				try {
 					testStressProductsReadBulk();
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 					Assert.assertTrue(false,"Stress test failed");
 				}
@@ -58,12 +58,12 @@ public class TestProductsResource {
 			
 		};
 		
-		for(int i= 0 ; i< 200 ; i++) {
+		for(int i= 0 ; i< 10 ; i++) {
 			new Thread(runnable).start();
 		}
 	}
 	
-	public void testStressProductsReadBulk() throws IOException {
+	public void testStressProductsReadBulk() throws IOException, Exception {
 		OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS)
 				.readTimeout(15, TimeUnit.SECONDS).writeTimeout(15, TimeUnit.SECONDS).build();
 		
@@ -75,6 +75,10 @@ public class TestProductsResource {
 
 		Response response = okHttpClient.newCall(request).execute();
 
+		if (response.code() != 200) {
+			System.out.println("Product bulk read failed : " + Thread.currentThread().getName());
+			throw new Exception();
+		}
 		Assert.assertEquals(response.code(), 200);
 		System.out.println("Success : " + Thread.currentThread().getName());
 		

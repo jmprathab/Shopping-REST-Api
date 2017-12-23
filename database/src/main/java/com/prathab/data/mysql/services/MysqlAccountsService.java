@@ -14,6 +14,7 @@ import com.prathab.data.base.result.DeleteResult;
 import com.prathab.data.base.result.InsertResult;
 import com.prathab.data.base.result.ReadResult;
 import com.prathab.data.base.result.UpdateResult;
+import com.prathab.data.base.utils.DatabaseUtils;
 import com.prathab.data.constants.DBConstants;
 import com.prathab.data.datamodels.Users;
 
@@ -124,13 +125,10 @@ public class MysqlAccountsService implements DbService {
 		Connection connection = null;
 
 		InsertResult insertResult = new InsertResult();
-
+		
 		try {
-			Class.forName(MysqlConfiguration.DRIVER_CLASS);
-
-			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
-					MysqlConfiguration.PASSWORD);
-
+			connection = DatabaseUtils.getConnection();
+			
 			String query = "insert into users (name, mobile, password) values (?,?,?)";
 			System.out.println("Mysql : Insert : " + query);
 

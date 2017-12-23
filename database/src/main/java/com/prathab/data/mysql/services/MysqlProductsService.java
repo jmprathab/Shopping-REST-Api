@@ -1,7 +1,6 @@
 package com.prathab.data.mysql.services;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ import com.prathab.data.base.result.InsertResult;
 import com.prathab.data.base.result.ReadBulkResult;
 import com.prathab.data.base.result.ReadResult;
 import com.prathab.data.base.result.UpdateResult;
+import com.prathab.data.base.utils.DatabaseUtils;
 import com.prathab.data.constants.DBConstants;
 import com.prathab.data.datamodels.Products;
 
@@ -58,15 +58,7 @@ public class MysqlProductsService implements DbProductsService {
 		Connection connection = null;
 
 		try {
-			Class.forName(MysqlConfiguration.DRIVER_CLASS);
-		} catch (Exception e) {
-			System.out.println("Mysql Driver not found");
-		}
-
-		try {
-			connection = DriverManager.getConnection(MysqlConfiguration.CONNECTION_STRING, MysqlConfiguration.USER_NAME,
-					MysqlConfiguration.PASSWORD);
-
+			connection = DatabaseUtils.getConnection();
 			Statement statement = connection.createStatement();
 			String query = "select * from products limit " + limit + " offset " + page + ";";
 			System.out.println("Mysql : BulkRead : " + query);
@@ -87,7 +79,7 @@ public class MysqlProductsService implements DbProductsService {
 			assert false;
 			return null;
 		}
-		
+
 		ReadBulkResult<Products> readBulkResult = new ReadBulkResult<Products>(productsList);
 		return readBulkResult;
 	}
