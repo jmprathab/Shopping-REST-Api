@@ -39,11 +39,11 @@ public class TestProductsResource {
 
 		Assert.assertEquals(response.code(), 200);
 	}
-	
-	@Test (priority = 1)
+
+	@Test(priority = 1)
 	public void stressTestProductsReadBulk() throws IOException {
 		System.out.println("Stress Testing Products resource fetch bulk");
-		
+
 		Runnable runnable = new Runnable() {
 
 			@Override
@@ -52,21 +52,21 @@ public class TestProductsResource {
 					testStressProductsReadBulk();
 				} catch (Exception e) {
 					e.printStackTrace();
-					Assert.assertTrue(false,"Stress test failed");
+					Assert.assertTrue(false, "Stress test failed");
 				}
 			}
-			
+
 		};
-		
-		for(int i= 0 ; i< 10 ; i++) {
+
+		for (int i = 0; i < 10; i++) {
 			new Thread(runnable).start();
 		}
 	}
-	
+
 	public void testStressProductsReadBulk() throws IOException, Exception {
 		OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS)
 				.readTimeout(15, TimeUnit.SECONDS).writeTimeout(15, TimeUnit.SECONDS).build();
-		
+
 		HttpUrl.Builder urlBuilder = HttpUrl.parse(ENDPOINT + "/products").newBuilder();
 		urlBuilder.addQueryParameter("page", "1");
 		urlBuilder.addQueryParameter("limit", "50");
@@ -81,6 +81,6 @@ public class TestProductsResource {
 		}
 		Assert.assertEquals(response.code(), 200);
 		System.out.println("Success : " + Thread.currentThread().getName());
-		
+
 	}
 }

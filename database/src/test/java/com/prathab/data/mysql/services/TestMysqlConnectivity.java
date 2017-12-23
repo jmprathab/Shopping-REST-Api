@@ -73,11 +73,6 @@ public class TestMysqlConnectivity {
 		System.out.println("Testing Mysql Products Insert operation");
 		System.out.println("Mysql Products Insert is not implemented, so skipping the test");
 
-		int temp = 0; // Just skipping the test
-		if (temp == 0) {
-			return;
-		}
-
 		MysqlProductsService service = new MysqlProductsService();
 		Products products = new Products();
 		products.setId("1");
@@ -96,12 +91,12 @@ public class TestMysqlConnectivity {
 	}
 
 	@Test(priority = 3)
-	public void testMysqlCartsInsert() {
+	public void testMysqlCartsInsert() throws DbException {
 		System.out.println("Testing Mysql Carts Insert operation");
 
 		MysqlCartsService service = new MysqlCartsService();
 		Carts carts = new Carts();
-		carts.setProductsId(2);
+		carts.setProductsId(1);
 		carts.setUsersId(1);
 		carts.setQuantity(1);
 
@@ -147,9 +142,9 @@ public class TestMysqlConnectivity {
 
 		MysqlCartsService service = new MysqlCartsService();
 		Carts carts = new Carts();
-		carts.setProductsId(2);
+		carts.setProductsId(1);
 		carts.setUsersId(1);
-		carts.setQuantity(2);
+		carts.setQuantity(1);
 		DbObjectSpec spec = new DbObjectSpec(carts);
 		try {
 			UpdateResult result = service.update(spec);
@@ -196,13 +191,13 @@ public class TestMysqlConnectivity {
 		}
 	}
 
-	@Test(priority = 9, enabled = false)
+	@Test(priority = 9)
 	public void testMysqlProductsDelete() {
 		System.out.println("Testing Mysql Products Delete operation");
 
 		MysqlProductsService service = new MysqlProductsService();
 		Products products = new Products();
-		products.setId("2");
+		products.setId("1");
 
 		DbObjectSpec spec = new DbObjectSpec(products);
 		try {
@@ -220,7 +215,7 @@ public class TestMysqlConnectivity {
 
 		MysqlCartsService service = new MysqlCartsService();
 		Carts carts = new Carts();
-		carts.setProductsId(2);
+		carts.setProductsId(1);
 		carts.setUsersId(1);
 
 		DbObjectSpec spec = new DbObjectSpec(carts);
