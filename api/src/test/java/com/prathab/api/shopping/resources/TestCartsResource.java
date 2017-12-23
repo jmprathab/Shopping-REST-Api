@@ -63,10 +63,10 @@ public class TestCartsResource {
 	}
 
 	@Test(priority = 2)
-	public void testCartsDelete() throws IOException {
-		System.out.println("Testing testCartsResource Delete");
+	public void testCartsCheckout() throws IOException {
+		System.out.println("Testing testCartsResource Checkout");
 
-		JsonObject jsonObject = Json.createObjectBuilder().add("productsId", 2).add("usersId", 1).build();
+		JsonObject jsonObject = Json.createObjectBuilder().add("usersId", 1).build();
 
 		RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
 				jsonObject.toString());
