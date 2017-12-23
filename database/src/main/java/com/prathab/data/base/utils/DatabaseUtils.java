@@ -18,7 +18,6 @@ public class DatabaseUtils {
 
 		if (dataSource == null) {
 			BasicDataSource ds = new BasicDataSource();
-
 			// TODO change this and remove mysql dependency
 			ds.setDriverClassName(MysqlConfiguration.DRIVER_CLASS);
 			ds.setUrl(MysqlConfiguration.CONNECTION_STRING);

@@ -125,10 +125,10 @@ public class MysqlAccountsService implements DbService {
 		Connection connection = null;
 
 		InsertResult insertResult = new InsertResult();
-		
+
 		try {
 			connection = DatabaseUtils.getConnection();
-			
+
 			String query = "insert into users (name, mobile, password) values (?,?,?)";
 			System.out.println("Mysql : Insert : " + query);
 

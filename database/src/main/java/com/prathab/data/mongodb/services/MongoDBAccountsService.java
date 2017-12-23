@@ -1,5 +1,12 @@
 package com.prathab.data.mongodb.services;
 
+import static com.mongodb.client.model.Filters.eq;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_MOBILE;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_NAME;
+import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_PASSWORD;
+
+import org.bson.Document;
+
 import com.mongodb.client.MongoCollection;
 import com.prathab.data.base.DbObjectSpec;
 import com.prathab.data.base.DbService;
@@ -10,13 +17,6 @@ import com.prathab.data.base.result.ReadResult;
 import com.prathab.data.base.result.UpdateResult;
 import com.prathab.data.constants.DBConstants;
 import com.prathab.data.datamodels.Users;
-
-import org.bson.Document;
-
-import static com.mongodb.client.model.Filters.eq;
-import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_MOBILE;
-import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_NAME;
-import static com.prathab.data.constants.DBConstants.DB_COLLECTION_USERS_PASSWORD;
 
 public class MongoDBAccountsService implements DbService {
 

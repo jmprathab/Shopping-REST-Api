@@ -1,7 +1,10 @@
 package com.prathab.api.shopping.datamodels;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.prathab.data.base.dbmodel.DbObject;
 
+@XmlRootElement
 public class Carts implements DbObject {
 	private int productsId;
 	private int quantity;
