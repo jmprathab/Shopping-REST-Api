@@ -16,13 +16,14 @@ import com.prathab.data.base.result.UpdateResult;
 import com.prathab.data.base.utils.DatabaseUtils;
 import com.prathab.data.constants.DBConstants;
 import com.prathab.data.datamodels.Carts;
+import com.prathab.data.datamodels.Users;
 
 public class MysqlCartsService implements DbCartsService {
 
 	@Override
 	public ReadResult read(DbObjectSpec spec) throws DbException {
 		Carts inputSpec = (Carts) spec.getObject();
-		int usersId = inputSpec.getUsersId();
+		String usersMobile = inputSpec.getUsersMobile();
 		int productsId = inputSpec.getProductsId();
 
 		Connection connection = null;
@@ -39,11 +40,11 @@ public class MysqlCartsService implements DbCartsService {
 
 		Carts fetchedCarts = null;
 		try {
-			String query = "SELECT * FROM CARTS WHERE users_id =? AND products_id =?;";
+			String query = "SELECT C.USERS_ID,C.PRODUCTS_ID,C.QUANTITY FROM CARTS INNER JOIN USERS ON CARTS.USERS_ID=USERS.USERS_ID AND USERS.MOBILE=? AND CARTS.PRODUCTS_ID=2;";
 			System.out.println("Mysql : Carts : Read : " + query);
 
 			statement = connection.prepareStatement(query);
-			statement.setInt(1, usersId);
+			statement.setString(1, usersMobile);
 			statement.setInt(2, productsId);
 
 			rs = statement.executeQuery();
@@ -87,7 +88,7 @@ public class MysqlCartsService implements DbCartsService {
 	@Override
 	public DeleteResult delete(DbObjectSpec spec) throws DbException {
 		Carts inputSpec = (Carts) spec.getObject();
-		int usersId = inputSpec.getUsersId();
+		String usersMobile = inputSpec.getUsersMobile();
 
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -102,11 +103,11 @@ public class MysqlCartsService implements DbCartsService {
 		}
 
 		try {
-			String query = "DELETE FROM CARTS WHERE  users_id=?;";
+			String query = "DELETE FROM CARTS WHERE CARTS.USERS_ID IN (SELECT USERS.USERS_ID FROM USERS WHERE USERS.MOBILE=?);";
 			System.out.println("Mysql : Carts : Delete : " + query);
 
 			statement = connection.prepareStatement(query);
-			statement.setInt(1, usersId);
+			statement.setString(1, usersMobile);
 
 			int numRows = statement.executeUpdate();
 
@@ -138,13 +139,25 @@ public class MysqlCartsService implements DbCartsService {
 		Carts carts = (Carts) object;
 
 		int productsId = carts.getProductsId();
-		int usersId = carts.getUsersId();
+		String usersMobile = carts.getUsersMobile();
 		int quantity = carts.getQuantity();
 
 		Connection connection = null;
 		PreparedStatement statement = null;
 
 		InsertResult insertResult = new InsertResult();
+
+		// Fetch user_id from mobile
+		Users u = new Users();
+		u.setMobile(usersMobile);
+		DbObjectSpec readSpec = new DbObjectSpec(u);
+		ReadResult result = new MysqlAccountsService().read(readSpec);
+		if (!result.isSuccessful()) {
+			insertResult.setSuccessful(false);
+			return insertResult;
+		}
+		Users readUsers = (Users) result.getDbObject();
+		int usersId = Integer.parseInt(readUsers.getId());
 
 		try {
 			connection = DatabaseUtils.getConnection();
@@ -155,7 +168,7 @@ public class MysqlCartsService implements DbCartsService {
 
 		try {
 			String query = "insert into carts (users_id, products_id, quantity) values (?,?,?)";
-			System.out.println("Mysql : Insert : " + query);
+			System.out.println("Mysql : Carts : Insert : " + query);
 
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, usersId);
@@ -191,7 +204,7 @@ public class MysqlCartsService implements DbCartsService {
 
 		Carts carts = (Carts) spec.getObject();
 		int productsId = carts.getProductsId();
-		int usersId = carts.getUsersId();
+		String usersMobile = carts.getUsersMobile();
 		int quantity = carts.getQuantity();
 
 		Connection connection = null;
@@ -211,6 +224,18 @@ public class MysqlCartsService implements DbCartsService {
 			result.setNumOfRows(insertResult.getNumOfRows());
 			return result;
 		}
+
+		// Fetch user_id from mobile
+		Users u = new Users();
+		u.setMobile(usersMobile);
+		DbObjectSpec readSpec = new DbObjectSpec(u);
+		ReadResult result = new MysqlAccountsService().read(readSpec);
+		if (!result.isSuccessful()) {
+			updateResult.setSuccessful(false);
+			return updateResult;
+		}
+		Users readUsers = (Users) result.getDbObject();
+		int usersId = Integer.parseInt(readUsers.getId());
 
 		try {
 			connection = DatabaseUtils.getConnection();
@@ -257,12 +282,24 @@ public class MysqlCartsService implements DbCartsService {
 	public UpdateResult checkout(DbObjectSpec spec) throws DbException {
 		Carts carts = (Carts) spec.getObject();
 
-		int usersId = carts.getUsersId();
+		String usersMobile = carts.getUsersMobile();
 
 		Connection connection = null;
 		PreparedStatement statement = null;
 
 		UpdateResult updateResult = new UpdateResult();
+
+		// Fetch user_id from mobile
+		Users u = new Users();
+		u.setMobile(usersMobile);
+		DbObjectSpec readSpec = new DbObjectSpec(u);
+		ReadResult result = new MysqlAccountsService().read(readSpec);
+		if (!result.isSuccessful()) {
+			updateResult.setSuccessful(false);
+			return updateResult;
+		}
+		Users readUsers = (Users) result.getDbObject();
+		int usersId = Integer.parseInt(readUsers.getId());
 
 		try {
 			connection = DatabaseUtils.getConnection();
@@ -293,7 +330,7 @@ public class MysqlCartsService implements DbCartsService {
 			assert (numRowsDeleted > 0);
 
 			connection.commit();
-			
+
 			if (deleteStatement != null) {
 				try {
 					deleteStatement.close();

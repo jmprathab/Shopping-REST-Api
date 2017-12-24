@@ -1,14 +1,14 @@
 package com.prathab.api.shopping.resources;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
 
+import com.prathab.api.shopping.utility.JwtUtility;
 import com.prathab.data.base.DbCartsService;
 import com.prathab.data.base.DbObjectSpec;
 import com.prathab.data.base.exception.DbException;
@@ -35,10 +35,17 @@ public class CartsResource {
 			@ApiResponse(code = 400, message = "Input fields are empty or null or incorrect, or if there is any error in input data"),
 			@ApiResponse(code = 200, message = "Account was created successfully") })
 	@POST
-	@Path("/add")
+	@Path("/")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response addToCart(@Context UriInfo uriInfo,
-			@ApiParam(value = "Should contain Products ID, Users ID, quantity", required = true) Carts carts) {
+	public Response addToCart(@HeaderParam("Authorization") String token,
+			@ApiParam(value = "Should contain Products ID, quantity", required = true) Carts carts) {
+
+		if (!JwtUtility.validateJWT(token)) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+
+		String mobile = JwtUtility.getMobile(token);
+		carts.setUsersMobile(mobile);
 
 		int quantity = carts.getQuantity();
 
@@ -68,8 +75,15 @@ public class CartsResource {
 	@POST
 	@Path("/delete")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response deleteFromCart(@Context UriInfo uriInfo,
-			@ApiParam(value = "Should contain Products ID, Users ID", required = true) Carts carts) {
+	public Response deleteFromCart(@HeaderParam("Authorization") String token,
+			@ApiParam(value = "Should contain Products ID", required = true) Carts carts) {
+
+		if (!JwtUtility.validateJWT(token)) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+
+		String mobile = JwtUtility.getMobile(token);
+		carts.setUsersMobile(mobile);
 
 		DeleteResult result = null;
 		DbObjectSpec spec = new DbObjectSpec(carts);
@@ -95,8 +109,15 @@ public class CartsResource {
 	@POST
 	@Path("/update")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response updateCart(@Context UriInfo uriInfo,
+	public Response updateCart(@HeaderParam("Authorization") String token,
 			@ApiParam(value = "Should contain Products ID, Users ID, quantity", required = true) Carts carts) {
+
+		if (!JwtUtility.validateJWT(token)) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+
+		String mobile = JwtUtility.getMobile(token);
+		carts.setUsersMobile(mobile);
 
 		UpdateResult result = null;
 		DbObjectSpec spec = new DbObjectSpec(carts);
@@ -122,8 +143,15 @@ public class CartsResource {
 	@POST
 	@Path("/checkout")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response cartCheckout(@Context UriInfo uriInfo,
+	public Response cartCheckout(@HeaderParam("Authorization") String token,
 			@ApiParam(value = "Should contain Users ID", required = true) Carts carts) {
+
+		if (!JwtUtility.validateJWT(token)) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+
+		String mobile = JwtUtility.getMobile(token);
+		carts.setUsersMobile(mobile);
 
 		UpdateResult result = null;
 		DbObjectSpec spec = new DbObjectSpec(carts);

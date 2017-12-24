@@ -60,6 +60,7 @@ public class MysqlAccountsService implements DbService {
 
 			while (rs.next()) {
 				fetchedUsers = new Users();
+				fetchedUsers.setId(rs.getString(DBConstants.DB_COLLECTION_USERS_ID));
 				fetchedUsers.setName(rs.getString(DBConstants.DB_COLLECTION_USERS_NAME));
 				fetchedUsers.setMobile(rs.getString(DBConstants.DB_COLLECTION_USERS_MOBILE));
 				fetchedUsers.setPassword(rs.getString(DBConstants.DB_COLLECTION_USERS_PASSWORD));

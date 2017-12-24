@@ -2,10 +2,15 @@ package com.prathab.data.datamodels;
 
 import com.prathab.data.base.dbmodel.DbObject;
 
+/**
+ * @author jmprathab
+ *
+ */
 public class Carts implements DbObject {
 	private int productsId;
 	private int quantity;
 	private int usersId;
+	private String usersMobile;
 
 	public int getUsersId() {
 		return usersId;
@@ -19,16 +24,18 @@ public class Carts implements DbObject {
 		super();
 	}
 
-	public Carts(int productsId, int quantity, int usersId) {
+	public Carts(int productsId, int quantity, int usersId, String usersMobile) {
 		super();
 		this.productsId = productsId;
 		this.quantity = quantity;
 		this.usersId = usersId;
+		this.usersMobile = usersMobile;
 	}
 
 	@Override
 	public String toString() {
-		return "Carts [productsId=" + productsId + ", quantity=" + quantity + ", usersId=" + usersId + "]";
+		return "Carts [productsId=" + productsId + ", quantity=" + quantity + ", usersId=" + usersId + ", usersMobile="
+				+ usersMobile + "]";
 	}
 
 	public int getProductsId() {
@@ -41,6 +48,14 @@ public class Carts implements DbObject {
 
 	public int getQuantity() {
 		return quantity;
+	}
+
+	public String getUsersMobile() {
+		return usersMobile;
+	}
+
+	public void setUsersMobile(String usersMobile) {
+		this.usersMobile = usersMobile;
 	}
 
 	public void setQuantity(int quantity) {
