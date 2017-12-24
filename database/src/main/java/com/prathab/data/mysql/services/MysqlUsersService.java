@@ -18,7 +18,7 @@ import com.prathab.data.base.utils.DatabaseUtils;
 import com.prathab.data.constants.DBConstants;
 import com.prathab.data.datamodels.Users;
 
-public class MysqlAccountsService implements DbService {
+public class MysqlUsersService implements DbService {
 
 	@Override
 	public ReadResult read(DbObjectSpec spec) throws DbException {

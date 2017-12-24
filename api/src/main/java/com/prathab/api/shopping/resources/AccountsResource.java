@@ -34,7 +34,7 @@ import com.prathab.data.base.exception.DbException;
 import com.prathab.data.base.result.DeleteResult;
 import com.prathab.data.base.result.InsertResult;
 import com.prathab.data.datamodels.Users;
-import com.prathab.data.mysql.services.MysqlAccountsService;
+import com.prathab.data.mysql.services.MysqlUsersService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,7 +46,7 @@ import io.swagger.annotations.ApiResponses;
 @Path("/accounts")
 public class AccountsResource {
 
-	private static final DbService mDbAccountsService = new MysqlAccountsService();
+	private static final DbService mDbAccountsService = new MysqlUsersService();
 
 	@ApiOperation(value = "Create a new User Account", notes = "Create Account requires name, mobile and password")
 	@ApiResponses(value = { @ApiResponse(code = 400, message = "Input fields are empty or null or incorrect"),

@@ -54,7 +54,7 @@ public class TestMysqlConnectivity {
 	public void testMysqlUsersInsert() {
 		System.out.println("Testing Mysql Insert operation");
 
-		MysqlAccountsService service = new MysqlAccountsService();
+		MysqlUsersService service = new MysqlUsersService();
 		Users users = new Users();
 		users.setName("Shopping_Test_User");
 		users.setMobile("8110081100");
@@ -113,7 +113,7 @@ public class TestMysqlConnectivity {
 	public void testMysqlUsersRead() {
 		System.out.println("Testing Mysql Read operation");
 
-		MysqlAccountsService service = new MysqlAccountsService();
+		MysqlUsersService service = new MysqlUsersService();
 		Users users = new Users();
 		users.setMobile("8110081100");
 		users.setPassword("password");
@@ -178,7 +178,7 @@ public class TestMysqlConnectivity {
 	public void testMysqUsersDelete() {
 		System.out.println("Testing Mysql Users Delete operation");
 
-		MysqlAccountsService service = new MysqlAccountsService();
+		MysqlUsersService service = new MysqlUsersService();
 		Users users = new Users();
 		users.setMobile("8110081100");
 		DbObjectSpec spec = new DbObjectSpec(users);

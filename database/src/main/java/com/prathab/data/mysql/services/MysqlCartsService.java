@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import com.prathab.data.base.DbCartsService;
 import com.prathab.data.base.DbObjectSpec;
+import com.prathab.data.base.DbService;
 import com.prathab.data.base.dbmodel.DbObject;
 import com.prathab.data.base.exception.DbException;
 import com.prathab.data.base.result.DeleteResult;
@@ -19,6 +20,7 @@ import com.prathab.data.datamodels.Carts;
 import com.prathab.data.datamodels.Users;
 
 public class MysqlCartsService implements DbCartsService {
+	private DbService mUsersDbService = new MysqlUsersService();
 
 	@Override
 	public ReadResult read(DbObjectSpec spec) throws DbException {
@@ -151,7 +153,7 @@ public class MysqlCartsService implements DbCartsService {
 		Users u = new Users();
 		u.setMobile(usersMobile);
 		DbObjectSpec readSpec = new DbObjectSpec(u);
-		ReadResult result = new MysqlAccountsService().read(readSpec);
+		ReadResult result = mUsersDbService.read(readSpec);
 		if (!result.isSuccessful()) {
 			insertResult.setSuccessful(false);
 			return insertResult;
@@ -229,7 +231,7 @@ public class MysqlCartsService implements DbCartsService {
 		Users u = new Users();
 		u.setMobile(usersMobile);
 		DbObjectSpec readSpec = new DbObjectSpec(u);
-		ReadResult result = new MysqlAccountsService().read(readSpec);
+		ReadResult result = mUsersDbService.read(readSpec);
 		if (!result.isSuccessful()) {
 			updateResult.setSuccessful(false);
 			return updateResult;
@@ -293,7 +295,7 @@ public class MysqlCartsService implements DbCartsService {
 		Users u = new Users();
 		u.setMobile(usersMobile);
 		DbObjectSpec readSpec = new DbObjectSpec(u);
-		ReadResult result = new MysqlAccountsService().read(readSpec);
+		ReadResult result = new MysqlUsersService().read(readSpec);
 		if (!result.isSuccessful()) {
 			updateResult.setSuccessful(false);
 			return updateResult;
