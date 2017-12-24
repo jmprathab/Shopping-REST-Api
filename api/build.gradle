@@ -29,6 +29,8 @@ buildscript {
     }
 }
 
+cargoRunLocal.dependsOn assemble
+
 cargo {
     containerId = 'tomcat8x'
     port = 8080
