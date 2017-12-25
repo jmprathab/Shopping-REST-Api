@@ -57,7 +57,7 @@ public class TestMysqlConnectivity {
 		MysqlUsersService service = new MysqlUsersService();
 		Users users = new Users();
 		users.setName("Shopping_Test_User");
-		users.setMobile("8110081100");
+		users.setMobile("+91 81100 81100");
 		users.setPassword("password");
 		try {
 			InsertResult result = service.insert(users);
@@ -97,7 +97,7 @@ public class TestMysqlConnectivity {
 		MysqlCartsService service = new MysqlCartsService();
 		Carts carts = new Carts();
 		carts.setProductsId(1);
-		carts.setUsersId(1);
+		carts.setUsersMobile("+91 81100 81100");
 		carts.setQuantity(1);
 
 		try {
@@ -115,7 +115,7 @@ public class TestMysqlConnectivity {
 
 		MysqlUsersService service = new MysqlUsersService();
 		Users users = new Users();
-		users.setMobile("8110081100");
+		users.setMobile("+91 81100 81100");
 		users.setPassword("password");
 		DbObjectSpec spec = new DbObjectSpec(users);
 		try {
@@ -123,9 +123,9 @@ public class TestMysqlConnectivity {
 			Users fetchedUsers = (Users) result.getDbObject();
 
 			Assert.assertTrue(fetchedUsers.getName().equals("Shopping_Test_User"));
-			Assert.assertTrue(fetchedUsers.getMobile().equals("8110081100"));
+			Assert.assertTrue(fetchedUsers.getMobile().equals("+91 81100 81100"));
 			Assert.assertTrue(fetchedUsers.getPassword().equals("password"));
-			// Assert.assertTrue(result.isSuccessful());
+			Assert.assertTrue(result.isSuccessful());
 		} catch (DbException e) {
 			Assert.fail("Mysql Users Read failed", e);
 		}
@@ -143,8 +143,8 @@ public class TestMysqlConnectivity {
 		MysqlCartsService service = new MysqlCartsService();
 		Carts carts = new Carts();
 		carts.setProductsId(1);
-		carts.setUsersId(1);
-		carts.setQuantity(1);
+		carts.setUsersMobile("+91 81100 81100");
+		carts.setQuantity(2);
 		DbObjectSpec spec = new DbObjectSpec(carts);
 		try {
 			UpdateResult result = service.update(spec);
@@ -162,7 +162,7 @@ public class TestMysqlConnectivity {
 
 		MysqlCartsService service = new MysqlCartsService();
 		Carts carts = new Carts();
-		carts.setUsersId(1);
+		carts.setUsersMobile("+91 81100 81100");
 		DbObjectSpec spec = new DbObjectSpec(carts);
 		try {
 			UpdateResult result = service.checkout(spec);
@@ -180,7 +180,7 @@ public class TestMysqlConnectivity {
 
 		MysqlUsersService service = new MysqlUsersService();
 		Users users = new Users();
-		users.setMobile("8110081100");
+		users.setMobile("+91 81100 81100");
 		DbObjectSpec spec = new DbObjectSpec(users);
 		try {
 			DeleteResult result = service.delete(spec);
@@ -216,7 +216,7 @@ public class TestMysqlConnectivity {
 		MysqlCartsService service = new MysqlCartsService();
 		Carts carts = new Carts();
 		carts.setProductsId(1);
-		carts.setUsersId(1);
+		carts.setUsersMobile("+91 81100 81100");
 
 		DbObjectSpec spec = new DbObjectSpec(carts);
 		try {

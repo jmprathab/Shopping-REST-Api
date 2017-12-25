@@ -42,7 +42,7 @@ public class MysqlCartsService implements DbCartsService {
 
 		Carts fetchedCarts = null;
 		try {
-			String query = "SELECT C.USERS_ID,C.PRODUCTS_ID,C.QUANTITY FROM CARTS INNER JOIN USERS ON CARTS.USERS_ID=USERS.USERS_ID AND USERS.MOBILE=? AND CARTS.PRODUCTS_ID=2;";
+			String query = "SELECT carts.users_id,carts.products_id,carts.quantity FROM carts INNER JOIN users ON carts.users_id=users.users_id AND users.mobile=? AND carts.products_id=?;";
 			System.out.println("Mysql : Carts : Read : " + query);
 
 			statement = connection.prepareStatement(query);
@@ -247,7 +247,7 @@ public class MysqlCartsService implements DbCartsService {
 		}
 
 		try {
-			String query = "UPDATE CARTS SET quantity = ? WHERE products_id=? AND users_id=?;";
+			String query = "UPDATE carts SET quantity = ? WHERE products_id=? AND users_id=?;";
 			System.out.println("Mysql : Carts : Update : " + query);
 
 			statement = connection.prepareStatement(query);

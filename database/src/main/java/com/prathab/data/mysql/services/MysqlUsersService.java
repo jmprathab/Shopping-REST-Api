@@ -124,7 +124,7 @@ public class MysqlUsersService implements DbService {
 		}
 
 		try {
-			String query = "DELETE FROM USERS WHERE " + nonNullKey + "=" + nonNullValue;
+			String query = "DELETE FROM USERS WHERE " + nonNullKey + "='" + nonNullValue + "';";
 			System.out.println("Mysql : Accounts : Delete : " + query);
 
 			statement = connection.createStatement();
