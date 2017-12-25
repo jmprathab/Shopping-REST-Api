@@ -10,7 +10,7 @@ public class ReadResult extends DbResult {
 	}
 
 	public ReadResult() {
-		
+
 	}
 
 	public DbObject getDbObject() {

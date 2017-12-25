@@ -20,14 +20,13 @@ public class DatabaseUtils {
 
 		if (dataSource == null) {
 			BasicDataSource ds = new BasicDataSource();
-			// TODO change this and remove mysql dependency
 			ds.setDriverClassName(mDbConfiguration.getDriverClass());
 			ds.setUrl(mDbConfiguration.getConnectionString());
 			ds.setUsername(mDbConfiguration.getDbUserName());
 			ds.setPassword(mDbConfiguration.getDbPassword());
 
 			ds.setMinIdle(5);
-			ds.setMaxIdle(10);
+			ds.setMaxIdle(15);
 			ds.setMaxOpenPreparedStatements(100);
 
 			dataSource = ds;

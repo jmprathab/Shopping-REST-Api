@@ -10,6 +10,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import com.prathab.api.shopping.constants.HttpConstants;
+
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -43,7 +45,7 @@ public class TestAccountsResource {
 		Response response = mOkHttpClient.newCall(request).execute();
 
 		Assert.assertEquals(response.code(), 200);
-		Assert.assertTrue(response.header("Token") != null);
+		Assert.assertTrue(response.header(HttpConstants.HTTP_HEADER_TOKEN) != null);
 	}
 
 	@Test(priority = 1)
@@ -61,7 +63,7 @@ public class TestAccountsResource {
 		Response response = mOkHttpClient.newCall(request).execute();
 
 		Assert.assertEquals(response.code(), 200);
-		Assert.assertTrue(response.header("Token") != null);
+		Assert.assertTrue(response.header(HttpConstants.HTTP_HEADER_TOKEN) != null);
 	}
 
 	@Test(priority = 2)

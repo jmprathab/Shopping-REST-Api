@@ -169,7 +169,7 @@ public class MysqlCartsService implements DbCartsService {
 		}
 
 		try {
-			String query = "insert into carts (users_id, products_id, quantity) values (?,?,?)";
+			String query = "INSERT INTO CARTS (users_id, products_id, quantity) VALUES (?,?,?)";
 			System.out.println("Mysql : Carts : Insert : " + query);
 
 			statement = connection.prepareStatement(query);

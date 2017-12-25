@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.prathab.api.shopping.constants.HttpConstants;
 import com.prathab.api.shopping.utility.JwtUtility;
 import com.prathab.data.base.DbCartsService;
 import com.prathab.data.base.DbObjectSpec;
@@ -30,14 +31,14 @@ public class CartsResource {
 
 	private static final DbCartsService mDbService = new MysqlCartsService();
 
-	@ApiOperation(value = "Adds a product to cart", notes = "Add to cart requires Users ID, Products ID and Quantity")
+	@ApiOperation(value = "Adds a product to cart", notes = "Add to cart requires JWT, Products ID and Quantity")
 	@ApiResponses(value = {
 			@ApiResponse(code = 400, message = "Input fields are empty or null or incorrect, or if there is any error in input data"),
 			@ApiResponse(code = 200, message = "Account was created successfully") })
 	@POST
 	@Path("/")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response addToCart(@HeaderParam("Authorization") String token,
+	public Response addToCart(@HeaderParam(HttpConstants.HTTP_HEADER_TOKEN) String token,
 			@ApiParam(value = "Should contain Products ID, quantity", required = true) Carts carts) {
 
 		if (!JwtUtility.validateJWT(token)) {
@@ -68,14 +69,14 @@ public class CartsResource {
 		return Response.status(Status.BAD_REQUEST).build();
 	}
 
-	@ApiOperation(value = "Adds a product to cart", notes = "Add to cart requires Users ID, Products ID and Quantity")
+	@ApiOperation(value = "Adds a product to cart", notes = "Add to cart requires JWT, Products ID and Quantity")
 	@ApiResponses(value = {
 			@ApiResponse(code = 400, message = "Input fields are empty or null or incorrect, or if there is any error in input data"),
 			@ApiResponse(code = 200, message = "Account was created successfully") })
 	@POST
 	@Path("/delete")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response deleteFromCart(@HeaderParam("Authorization") String token,
+	public Response deleteFromCart(@HeaderParam(HttpConstants.HTTP_HEADER_TOKEN) String token,
 			@ApiParam(value = "Should contain Products ID", required = true) Carts carts) {
 
 		if (!JwtUtility.validateJWT(token)) {
@@ -102,15 +103,15 @@ public class CartsResource {
 		return Response.status(Status.BAD_REQUEST).build();
 	}
 
-	@ApiOperation(value = "Adds a product to cart", notes = "Add to cart requires Users ID, Products ID and Quantity")
+	@ApiOperation(value = "Adds a product to cart", notes = "Add to cart requires JWT, Products ID and Quantity")
 	@ApiResponses(value = {
 			@ApiResponse(code = 400, message = "Input fields are empty or null or incorrect, or if there is any error in input data"),
 			@ApiResponse(code = 200, message = "Account was created successfully") })
 	@POST
 	@Path("/update")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response updateCart(@HeaderParam("Authorization") String token,
-			@ApiParam(value = "Should contain Products ID, Users ID, quantity", required = true) Carts carts) {
+	public Response updateCart(@HeaderParam(HttpConstants.HTTP_HEADER_TOKEN) String token,
+			@ApiParam(value = "Should contain Products ID, quantity", required = true) Carts carts) {
 
 		if (!JwtUtility.validateJWT(token)) {
 			return Response.status(Status.UNAUTHORIZED).build();
@@ -136,20 +137,20 @@ public class CartsResource {
 		return Response.status(Status.BAD_REQUEST).build();
 	}
 
-	@ApiOperation(value = "Adds a product to cart", notes = "Add to cart requires Users ID, Products ID and Quantity")
+	@ApiOperation(value = "Adds a product to cart", notes = "Add to cart requires JWT, Products ID and Quantity")
 	@ApiResponses(value = {
 			@ApiResponse(code = 400, message = "Input fields are empty or null or incorrect, or if there is any error in input data"),
 			@ApiResponse(code = 200, message = "Account was created successfully") })
 	@POST
 	@Path("/checkout")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response cartCheckout(@HeaderParam("Authorization") String token,
-			@ApiParam(value = "Should contain Users ID", required = true) Carts carts) {
+	public Response cartCheckout(@HeaderParam(HttpConstants.HTTP_HEADER_TOKEN) String token) {
 
 		if (!JwtUtility.validateJWT(token)) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 
+		Carts carts = new Carts();
 		String mobile = JwtUtility.getMobile(token);
 		carts.setUsersMobile(mobile);
 

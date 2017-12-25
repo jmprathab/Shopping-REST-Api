@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.prathab.api.shopping.constants.HttpConstants;
 import com.prathab.api.shopping.utility.JwtUtility;
 import com.prathab.data.base.DbProductsService;
 import com.prathab.data.base.result.ReadBulkResult;
@@ -36,8 +37,8 @@ public class ProductsResource {
 	@Path("/")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response fetchProducts(@HeaderParam("Authorization") String token, @QueryParam("page") int page,
-			@QueryParam("limit") int limit) {
+	public Response fetchProducts(@HeaderParam(HttpConstants.HTTP_HEADER_TOKEN) String token,
+			@QueryParam("page") int page, @QueryParam("limit") int limit) {
 
 		if (!JwtUtility.validateJWT(token)) {
 			return Response.status(Status.UNAUTHORIZED).build();

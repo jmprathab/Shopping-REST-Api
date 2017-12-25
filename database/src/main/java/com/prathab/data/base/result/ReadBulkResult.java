@@ -10,7 +10,7 @@ import com.prathab.data.base.dbmodel.DbObject;
  * @author jmprathab
  *
  */
-public class ReadBulkResult<T extends DbObject> extends DbResult{
+public class ReadBulkResult<T extends DbObject> extends DbResult {
 	private List<T> dbObject;
 
 	public List<T> getDbObject() {
