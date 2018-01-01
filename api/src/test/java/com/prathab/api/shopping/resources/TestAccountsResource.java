@@ -37,7 +37,7 @@ public class TestAccountsResource {
 		JsonObject jsonObject = Json.createObjectBuilder().add("name", "Shopping_Api_Test_User")
 				.add("mobile", "8110081100").add("password", "password").build();
 
-		RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+		RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstants.HTTP_JSON_MEDIA_TYPE),
 				jsonObject.toString());
 
 		Request request = new Request.Builder().url(ENDPOINT + "/accounts/create").post(requestBody).build();

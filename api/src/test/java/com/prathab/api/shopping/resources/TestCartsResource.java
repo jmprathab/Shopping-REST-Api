@@ -10,6 +10,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import com.prathab.api.shopping.constants.HttpConstants;
+
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -36,7 +38,7 @@ public class TestCartsResource {
 		JsonObject jsonObject = Json.createObjectBuilder().add("productsId", 2).add("usersId", 1).add("quantity", 1)
 				.build();
 
-		RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+		RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstants.HTTP_JSON_MEDIA_TYPE),
 				jsonObject.toString());
 
 		Request request = new Request.Builder().url(ENDPOINT + "/carts/add").post(requestBody).build();
@@ -52,7 +54,7 @@ public class TestCartsResource {
 		JsonObject jsonObject = Json.createObjectBuilder().add("productsId", 2).add("usersId", 1).add("quantity", 2)
 				.build();
 
-		RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+		RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstants.HTTP_JSON_MEDIA_TYPE),
 				jsonObject.toString());
 
 		Request request = new Request.Builder().url(ENDPOINT + "/carts/update").post(requestBody).build();
@@ -68,7 +70,7 @@ public class TestCartsResource {
 
 		JsonObject jsonObject = Json.createObjectBuilder().add("usersId", 1).build();
 
-		RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+		RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstants.HTTP_JSON_MEDIA_TYPE),
 				jsonObject.toString());
 
 		Request request = new Request.Builder().url(ENDPOINT + "/carts/delete").post(requestBody).build();

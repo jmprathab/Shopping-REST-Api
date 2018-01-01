@@ -10,4 +10,9 @@ public class HttpConstants {
 	 * Param Constants
 	 */
 	public static final String HTTP_PARAM_EMAIL = "email";
+	
+	/**
+	 * Media type constants
+	 */
+	public static final String HTTP_JSON_MEDIA_TYPE = "application/json; charset=utf-8";
 }
