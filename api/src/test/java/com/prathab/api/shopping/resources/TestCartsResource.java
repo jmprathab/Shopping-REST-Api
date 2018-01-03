@@ -41,7 +41,7 @@ public class TestCartsResource {
 		RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstants.HTTP_JSON_MEDIA_TYPE),
 				jsonObject.toString());
 
-		Request request = new Request.Builder().url(ENDPOINT + "/carts/add").post(requestBody).build();
+		Request request = new Request.Builder().url(ENDPOINT + "/carts").post(requestBody).build();
 
 		Response response = mOkHttpClient.newCall(request).execute();
 		Assert.assertEquals(response.code(), 200);
@@ -69,6 +69,22 @@ public class TestCartsResource {
 		System.out.println("Testing testCartsResource Checkout");
 
 		JsonObject jsonObject = Json.createObjectBuilder().add("usersId", 1).build();
+
+		RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstants.HTTP_JSON_MEDIA_TYPE),
+				jsonObject.toString());
+
+		Request request = new Request.Builder().url(ENDPOINT + "/carts/checkout").post(requestBody).build();
+
+		Response response = mOkHttpClient.newCall(request).execute();
+
+		Assert.assertEquals(response.code(), 200);
+	}
+	
+	@Test(priority = 3)
+	public void testCartsDelete() throws IOException {
+		System.out.println("Testing testCartsResource Delete");
+
+		JsonObject jsonObject = Json.createObjectBuilder().add("usersId", 1).add("productsId",1).build();
 
 		RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstants.HTTP_JSON_MEDIA_TYPE),
 				jsonObject.toString());
