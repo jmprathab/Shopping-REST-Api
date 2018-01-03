@@ -2,9 +2,9 @@ group 'com.prathab.rest.database'
 version '1.0-SNAPSHOT'
 
 ext {
-  mongodbJavaDriver = "3.5.0"
-  testng = "6.11"
-  mariadbJavaDriver = "2.2.0"
+  mongodbJavaDriver = "3.6.1"
+  testng = "6.13.1"
+  mariadbJavaDriver = "2.2.1"
   dbcp2 = "2.1.1"
 }
 

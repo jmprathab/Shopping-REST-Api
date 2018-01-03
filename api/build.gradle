@@ -9,13 +9,13 @@ ext {
   mongodbJavaDriver = "3.5.0"
   jwt = "3.3.0"
   jbcrypt = "0.4"
-  libPhoneNumber = "8.8.6"
+  libPhoneNumber = "8.8.8"
   commonsValidator = "1.6"
-  swagger = "1.5.16"
+  swagger = "1.5.17"
   javaxMail = "1.5.0-b01"
-  testng = "6.11"
-  okhttp = "3.9.0"
-  cargoPlugin = "1.4.5"
+  testng = "6.13.1"
+  okhttp = "3.9.1"
+  cargoPlugin = "1.6.6"
   servletApi = "4.0.0"
 }
 
