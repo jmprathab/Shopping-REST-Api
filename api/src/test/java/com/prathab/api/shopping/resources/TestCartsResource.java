@@ -22,6 +22,7 @@ import okhttp3.Response;
 public class TestCartsResource {
 
 	private final String ENDPOINT = "http://localhost:8080/shopping/api";
+	private final String JWT_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3d3cucHJhdGhhYi5zaG9wcGluZy5jb20iLCJuYW1lIjoiU2hvcHBpbmdfQXBpX1Rlc3RfVXNlciIsIm1vYmlsZSI6Iis5MSA4MTEwMCA4MTEwMCIsInVzZXJzX3R5cGUiOiJVc2VyIiwiZXhwIjoxNTE3Njc2MDI1LCJpYXQiOjE1MTQ5OTc2MjV9.7Eym8kkkvsjZffvS4abtSe3J3KdVSnWBL1LXOXRfrdY";
 
 	final OkHttpClient mOkHttpClient = new OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS)
 			.readTimeout(15, TimeUnit.SECONDS).writeTimeout(15, TimeUnit.SECONDS).build();
@@ -41,7 +42,7 @@ public class TestCartsResource {
 		RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstants.HTTP_JSON_MEDIA_TYPE),
 				jsonObject.toString());
 
-		Request request = new Request.Builder().url(ENDPOINT + "/carts").post(requestBody).build();
+		Request request = new Request.Builder().url(ENDPOINT + "/carts").header(HttpConstants.HTTP_HEADER_TOKEN, JWT_TOKEN).post(requestBody).build();
 
 		Response response = mOkHttpClient.newCall(request).execute();
 		Assert.assertEquals(response.code(), 200);
@@ -57,7 +58,7 @@ public class TestCartsResource {
 		RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstants.HTTP_JSON_MEDIA_TYPE),
 				jsonObject.toString());
 
-		Request request = new Request.Builder().url(ENDPOINT + "/carts/update").post(requestBody).build();
+		Request request = new Request.Builder().url(ENDPOINT + "/carts/update").header(HttpConstants.HTTP_HEADER_TOKEN, JWT_TOKEN).post(requestBody).build();
 
 		Response response = mOkHttpClient.newCall(request).execute();
 
@@ -73,7 +74,7 @@ public class TestCartsResource {
 		RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstants.HTTP_JSON_MEDIA_TYPE),
 				jsonObject.toString());
 
-		Request request = new Request.Builder().url(ENDPOINT + "/carts/checkout").post(requestBody).build();
+		Request request = new Request.Builder().url(ENDPOINT + "/carts/checkout").header(HttpConstants.HTTP_HEADER_TOKEN, JWT_TOKEN).post(requestBody).build();
 
 		Response response = mOkHttpClient.newCall(request).execute();
 
@@ -89,7 +90,7 @@ public class TestCartsResource {
 		RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstants.HTTP_JSON_MEDIA_TYPE),
 				jsonObject.toString());
 
-		Request request = new Request.Builder().url(ENDPOINT + "/carts/delete").post(requestBody).build();
+		Request request = new Request.Builder().url(ENDPOINT + "/carts/delete").header(HttpConstants.HTTP_HEADER_TOKEN, JWT_TOKEN).post(requestBody).build();
 
 		Response response = mOkHttpClient.newCall(request).execute();
 
