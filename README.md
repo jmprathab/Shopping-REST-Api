@@ -9,8 +9,6 @@ A Jersey based REST API which is written in JAVA. Need a backend for a Shopping 
 * Java 8 (JDK)
 * Mysql or Mariadb for DB
 
-## Screenshot
-
 ## Installing
 
 1. Download the Project to local drive
